@@ -1,0 +1,7 @@
+[22-01-14 16:08:30:792] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:36] - java.sql.SQLException: No value specified for parameter 7
+[22-01-14 16:09:28:324] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLSyntaxErrorException: Unknown column 'id_role' in 'field list'
+[22-01-14 16:11:42:920] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLSyntaxErrorException: Column 'desirable_time_of_work' specified twice
+[22-01-14 16:12:01:005] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLException: Column count doesn't match value count at row 1
+[22-01-14 16:18:03:943] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLException: Field 'is_private' doesn't have a default value
+[22-01-14 16:23:09:787] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLException: Field 'is_private' doesn't have a default value
+[22-01-14 16:24:47:950] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:registerOrder:37] - java.sql.SQLException: Field 'is_private' doesn't have a default value
