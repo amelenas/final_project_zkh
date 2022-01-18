@@ -69,6 +69,7 @@ public class UserDaoImpl implements UserDao {
                 UserStatus.of(resultSet.getString(7)),
                 Role.of(resultSet.getString(8)));
     }
+
     @Override
     public Optional<User> findById(int id) {
         try (Connection connection = getInstance().retrieveConnection()) {

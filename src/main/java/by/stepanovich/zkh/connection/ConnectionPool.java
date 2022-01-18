@@ -1,7 +1,6 @@
 package by.stepanovich.zkh.connection;
 
 import by.stepanovich.zkh.connection.exception.ConnectionPoolException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,12 +23,12 @@ public final class ConnectionPool implements ConnectionBuilder {
     private int poolSize;
 
 
-    public static class ConnectionPool2Holder {
+    public static class ConnectionPoolHolder {
         public static final ConnectionPool HOLDER_INSTANCE = new ConnectionPool();
     }
 
     public static ConnectionPool getInstance() {
-        return ConnectionPool2Holder.HOLDER_INSTANCE;
+        return ConnectionPoolHolder.HOLDER_INSTANCE;
     }
 
     private ConnectionPool() {
@@ -38,12 +37,11 @@ public final class ConnectionPool implements ConnectionBuilder {
         this.user = dbResourceManager.getValue(DBParameter.USER);
         this.password = dbResourceManager.getValue(DBParameter.PASSWORD);
         try {
-
             this.poolSize = Integer.parseInt(dbResourceManager.getValue(DBParameter.POOL_SIZE));
-
         } catch (NumberFormatException e) {
             poolSize = 5;
         }
+        //убрать
         try {
             initPoolData();
         } catch (ConnectionPoolException e) {
@@ -51,8 +49,7 @@ public final class ConnectionPool implements ConnectionBuilder {
         }
     }
 
-    //или паблик
-    private void initPoolData() throws ConnectionPoolException {
+    public void initPoolData() throws ConnectionPoolException {
         Locale.setDefault(Locale.ENGLISH);
 
         try {
@@ -89,23 +86,11 @@ public final class ConnectionPool implements ConnectionBuilder {
         return connection;
     }
 
-    public void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
-
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Connection isn't return the pool.");
+    public void closeConnection() throws SQLException {
+        for (Connection freeConnection : connectionQueue) {
+            freeConnection.close();
         }
-        try {
-            resultSet.close();
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "ResultSet isn't closed.");
-        }
-        try {
-            statement.close();
-        } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Statement isn't return the pool.");
-        }
+        LOGGER.info("Connection pool was successfully destroyed");
     }
 
     private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws SQLException {

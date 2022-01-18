@@ -1,40 +1,42 @@
 package by.stepanovich.zkh.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Order implements Serializable {
-    private Integer registrationId;//1
-    private Integer userId;//2
-    private String street;//3
-    private String houseNumber;//4
-    private String scopeOfWork;//5
-    private Date desirableTime;//6
-    private Integer orderStatus;//7
-    private String additionalInformation;//8
-    private String pictureAddress;//9
-    private boolean isPrivate;//10
-    private Integer mark;//11
+    private Integer registrationId;
+    private Integer userId;
+    private String street;
+    private String houseNumber;
+    private String scopeOfWork;
+    private Timestamp desirableTime;
+    private Timestamp openingDate;
+    private Timestamp closingDate;
+    private Integer orderStatus;
+    private String additionalInformation;
+    private String pictureAddress;
+    private boolean isPrivate;
+    private Integer mark;
 
-    public Order() {
-    }
-
-    public Order(Integer registrationId, Integer userId, String street,
-                 String houseNumber, String scopeOfWork, Date desirableTime,
-                 Integer orderStatus, String additionalInformation, String pictureAddress,
-                 boolean isPrivate, Integer mark) {
+    public Order(int registrationId, int userId, String street, String houseNumber, String scopeOfWork,
+                 Timestamp desirableTime,Timestamp openingDate, Timestamp closingDate,Integer orderStatus, String additionalInformation,
+                 String pictureAddress, boolean isPrivate, int mark) {
         this.registrationId = registrationId;
         this.userId = userId;
         this.street = street;
         this.houseNumber = houseNumber;
         this.scopeOfWork = scopeOfWork;
         this.desirableTime = desirableTime;
+        this.openingDate = openingDate;
+        this.closingDate = closingDate;
         this.orderStatus = orderStatus;
         this.additionalInformation = additionalInformation;
         this.pictureAddress = pictureAddress;
         this.isPrivate = isPrivate;
         this.mark = mark;
     }
+
 
     public Integer getRegistrationId() {
         return registrationId;
@@ -80,7 +82,7 @@ public class Order implements Serializable {
         return desirableTime;
     }
 
-    public void setDesirableTime(Date desirableTime) {
+    public void setDesirableTime(Timestamp desirableTime) {
         this.desirableTime = desirableTime;
     }
 

@@ -29,15 +29,18 @@ public class ApplicationController extends HttpServlet {
     }
 
     private void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
         String commandName = request.getParameter(COMMAND_PARAMETER_NAME);
         Command command = Command.of(commandName);
+
         RequestContent sessionRequestContent = SessionRequestContentFactory.defineContent(request);
         ResponseContext responseContext = command.execute(sessionRequestContent);
         sessionRequestContent.insertAttributes(request);
-        if (responseContext.isRedirect()) {
-            response.sendRedirect(request.getContextPath() + responseContext.getPage());
+        if (responseContext.getResponseContextType().equals(ResponseContext.ResponseContextType.REDIRECT)) {
+            response.sendRedirect(request.getContextPath() + responseContext.getPagePath());
         } else {
-            request.getRequestDispatcher(responseContext.getPage()).forward(request, response);
+            request.getRequestDispatcher(responseContext.getPagePath()).forward(request, response);
         }
     }
 }

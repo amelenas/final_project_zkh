@@ -7,25 +7,15 @@ import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
 
 public class ShowUserRegisterPageCommand implements Command {
-
-    private static final ResponseContext RESPONSE = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return Path.SHOW_REGISTER_PAGE;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private static final String LOG_IN = "log_in";
+    private static final String ERROR_MESSAGE = "errorMessage";
 
     @Override
     public ResponseContext execute(RequestContent req) {
-        if (req.getSessionAttribute("log_in") != null) {
-            req.setRequestAttribute("errorMessage", "You've already registered!");
+        if (req.getSessionAttribute(LOG_IN) != null) {
+            req.setRequestAttribute(ERROR_MESSAGE, "You've already registered!");
             return new ShowMainPageCommand().execute(req);
         }
-        return RESPONSE;
+        return new ResponseContext(Path.SHOW_REGISTER_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

@@ -1,12 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>User Info</title>
+    <jsp:include page="common/header.jsp"/>
+
 </head>
 <body>
 
-<jsp:include page="menu.jsp"></jsp:include>
 
 <h3>Hello: ${user.userName}</h3>
 
@@ -19,4 +21,5 @@ role: ${user.role }
 
 
 </body>
+<jsp:include page="common/footer.jsp"/>
 </html>

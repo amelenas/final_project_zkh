@@ -11,8 +11,6 @@ public class OrderServiceImpl implements OrderService {
    private static final OrderDao ORDER_DAO = new OrderDaoImpl();
 
    public Optional<Order> registerOrder(Integer userId, String street, String houseNumber, String scopeOfWork, String desirableTimeOfWork, String photo){
-      Optional<Order> optionalOrder = ORDER_DAO.registerOrder(userId, street, houseNumber, scopeOfWork, desirableTimeOfWork, photo);
-
-      return optionalOrder;
+      return ORDER_DAO.registerOrder(userId, street, houseNumber, scopeOfWork, desirableTimeOfWork, photo);
    }
 }

@@ -1,8 +1,26 @@
+
 package by.stepanovich.zkh.command;
 
-public interface ResponseContext {
+public class ResponseContext {
+    public enum ResponseContextType {
+        FORWARD,
+        REDIRECT
+    }
+    private final String pagePath;
+    private final ResponseContextType responseContextType;
 
-    String getPage();
+    public ResponseContext(String pagePath, ResponseContextType responseContextType) {
+        this.pagePath = pagePath;
+        this.responseContextType = responseContextType;
+    }
 
-    boolean isRedirect();
+    public String getPagePath() {
+        return pagePath;
+    }
+
+    public ResponseContextType getResponseContextType() {
+        return responseContextType;
+    }
+
 }
+

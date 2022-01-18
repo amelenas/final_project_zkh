@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-
-
-
     Optional<User> login(String login, String password);
 
     Optional<User> register(String email, String password, String userName, String userSurname, String phone);

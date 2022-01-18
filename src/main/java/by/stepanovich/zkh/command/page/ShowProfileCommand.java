@@ -12,32 +12,19 @@ import by.stepanovich.zkh.service.impl.UserServiceImpl;
 import java.util.Optional;
 
 public class ShowProfileCommand implements Command {
-
-    private static final ResponseContext RESPONSE = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return Path.SHOW_PROFILE_PAGE;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
-
+    private static final String USER_ID = "id";
+    private static final String USER = "user";
     private static final UserService USER_SERVICE = new UserServiceImpl();
 
     @Override
     public ResponseContext execute(RequestContent req) {
 
         final Optional<User> optionalUser
-                = USER_SERVICE.findById((Integer) req.getSessionAttribute("id"));
+                = USER_SERVICE.findById((Integer) req.getSessionAttribute(USER_ID));
         if (optionalUser.isEmpty()) {
             return new ShowMainPageCommand().execute(req);
         }
-
-        req.setRequestAttribute("user", optionalUser.get());
-
-        return RESPONSE;
+        req.setRequestAttribute(USER, optionalUser.get());
+        return new ResponseContext(Path.SHOW_PROFILE_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Home Page</title>
+  <title>MAIN PAGE</title>
 </head>
 <body>
-<h3>Home Page</h3>
+<h3>MAIN PAGE</h3>
 
-<jsp:forward page="/controller"/>
+<jsp:forward page="/WEB-INF/jsp/homeView.jsp"/>
 
 </body>
 </html>
