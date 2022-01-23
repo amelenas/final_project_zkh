@@ -1,14 +1,14 @@
 package by.stepanovich.zkh.command.order;
 
 import by.stepanovich.zkh.command.Command;
-import by.stepanovich.zkh.command.Path;
+import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
 
-public class SavePhoto implements Command {
+public class SavePhotoCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContent req) {
-        return new ResponseContext(Path.SHOW_USER_MAIN_PAGE, ResponseContext.ResponseContextType.FORWARD);
+        return new ResponseContext(PathOfJsp.USER_REGISTER_ORDER, ResponseContext.ResponseContextType.FORWARD);
     }
 }

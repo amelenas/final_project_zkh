@@ -3,29 +3,37 @@ package by.stepanovich.zkh.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Objects;
 
 public class Order implements Serializable {
-    private Integer registrationId;
-    private Integer userId;
+    private static final long serialVersionUID = 12L;
+
+    private long registrationId;
+    private long userId;
     private String street;
     private String houseNumber;
+    private String apartment;
     private String scopeOfWork;
     private Timestamp desirableTime;
     private Timestamp openingDate;
     private Timestamp closingDate;
-    private Integer orderStatus;
+    private OrderStatus orderStatus;
     private String additionalInformation;
     private String pictureAddress;
     private boolean isPrivate;
-    private Integer mark;
+    private int mark;
 
-    public Order(int registrationId, int userId, String street, String houseNumber, String scopeOfWork,
-                 Timestamp desirableTime,Timestamp openingDate, Timestamp closingDate,Integer orderStatus, String additionalInformation,
+    public Order() {
+    }
+
+    public Order(long registrationId, long userId, String street, String houseNumber, String apartment, String scopeOfWork,
+                 Timestamp desirableTime, Timestamp openingDate, Timestamp closingDate, OrderStatus orderStatus, String additionalInformation,
                  String pictureAddress, boolean isPrivate, int mark) {
         this.registrationId = registrationId;
         this.userId = userId;
         this.street = street;
         this.houseNumber = houseNumber;
+        this.apartment = apartment;
         this.scopeOfWork = scopeOfWork;
         this.desirableTime = desirableTime;
         this.openingDate = openingDate;
@@ -37,20 +45,21 @@ public class Order implements Serializable {
         this.mark = mark;
     }
 
+    public Timestamp getOpeningDate() {return openingDate;}
 
-    public Integer getRegistrationId() {
-        return registrationId;
-    }
+    public void setOpeningDate(Timestamp openingDate) {this.openingDate = openingDate;}
 
-    public void setRegistrationId(Integer registrationId) {
-        this.registrationId = registrationId;
-    }
+    public Timestamp getClosingDate() {return closingDate;}
 
-    public Integer getUserId() {
-        return userId;
-    }
+    public void setClosingDate(Timestamp closingDate) {this.closingDate = closingDate;}
 
-    public void setUserId(Integer userId) {
+    public long getRegistrationId() {return registrationId;}
+
+    public void setRegistrationId(long registrationId) {this.registrationId = registrationId;}
+
+    public long getUserId() {return userId;}
+
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -86,11 +95,11 @@ public class Order implements Serializable {
         this.desirableTime = desirableTime;
     }
 
-    public Integer getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(Integer orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -102,6 +111,9 @@ public class Order implements Serializable {
         this.additionalInformation = additionalInformation;
     }
 
+    public String getApartment() {return apartment;}
+
+    public void setApartment(String apartment) {this.apartment = apartment;}
     public String getPictureAddress() {
         return pictureAddress;
     }
@@ -118,48 +130,12 @@ public class Order implements Serializable {
         isPrivate = aPrivate;
     }
 
-    public Integer getMark() {
+    public int getMark() {
         return mark;
     }
 
-    public void setMark(Integer mark) {
+    public void setMark(int mark) {
         this.mark = mark;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return (registrationId == order.registrationId || (registrationId != null && registrationId.equals(order.registrationId))) &&
-                (userId == order.userId || (userId != null && userId.equals(order.userId))) &&
-                (street == order.street || (street != null && street.equals(order.street))) &&
-                (houseNumber == order.houseNumber || (houseNumber != null && houseNumber.equals(order.houseNumber))) &&
-                (scopeOfWork == order.scopeOfWork || (scopeOfWork != null && scopeOfWork.equals(order.scopeOfWork))) &&
-                (desirableTime == order.desirableTime || (desirableTime != null && desirableTime.equals(order.desirableTime))) &&
-                (orderStatus == order.orderStatus || (orderStatus != null && orderStatus.equals(order.orderStatus))) &&
-                (additionalInformation == order.additionalInformation || (additionalInformation != null && additionalInformation.equals(order.additionalInformation))) &&
-                (pictureAddress == order.pictureAddress || (pictureAddress != null && pictureAddress.equals(order.pictureAddress))) &&
-                (isPrivate == order.isPrivate ) && (mark == order.mark || (mark != null && mark.equals(order.mark)));
-
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (registrationId == null ? 0 : registrationId.hashCode());
-        result = prime * result + (userId == null ? 0 : userId.hashCode());
-        result = prime * result + (street == null ? 0 : street.hashCode());
-        result = prime * result + (houseNumber == null ? 0 : houseNumber.hashCode());
-        result = prime * result + (scopeOfWork == null ? 0 : scopeOfWork.hashCode());
-        result = prime * result + (desirableTime == null ? 0 : desirableTime.hashCode());
-        result = prime * result + (orderStatus == null ? 0 : orderStatus.hashCode());
-        result = prime * result + (additionalInformation == null ? 0 : additionalInformation.hashCode());
-        result = prime * result + (pictureAddress == null ? 0 : pictureAddress.hashCode());
-        result = prime * result + (Boolean.hashCode(isPrivate));
-        result = prime * result + (mark == null ? 0 : mark.hashCode());
-        return result;
     }
 
     @Override
@@ -178,5 +154,26 @@ public class Order implements Serializable {
         builder.append(" isPrivate = ").append(isPrivate);
         builder.append(" mark = ").append(mark);
         return builder.toString();
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return getRegistrationId() == order.getRegistrationId() && getUserId() == order.getUserId()
+                && getOrderStatus() == order.getOrderStatus() && isPrivate() == order.isPrivate() &&
+                getMark() == order.getMark() && getStreet().equals(order.getStreet()) &&
+                getHouseNumber().equals(order.getHouseNumber()) && getScopeOfWork().equals(order.getScopeOfWork())
+                && getDesirableTime().equals(order.getDesirableTime()) && openingDate.equals(order.openingDate) &&
+                closingDate.equals(order.closingDate) && getAdditionalInformation().equals(order.getAdditionalInformation()) &&
+                getPictureAddress().equals(order.getPictureAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRegistrationId(), getUserId(), getStreet(), getHouseNumber(), getScopeOfWork(),
+                getDesirableTime(), openingDate, closingDate, getOrderStatus(), getAdditionalInformation(), getPictureAddress(), isPrivate(), getMark());
     }
 }

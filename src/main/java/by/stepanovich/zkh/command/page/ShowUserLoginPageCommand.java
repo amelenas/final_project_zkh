@@ -1,7 +1,7 @@
 package by.stepanovich.zkh.command.page;
 
 import by.stepanovich.zkh.command.Command;
-import by.stepanovich.zkh.command.Path;
+import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
 
@@ -14,6 +14,6 @@ public class ShowUserLoginPageCommand implements Command {
         if (req.getSessionAttribute(LOG_IN) != null) {
                return new ShowMainPageCommand().execute(req);
         }
-        return new ResponseContext(Path.SHOW_USER_LOGIN_PAGE, ResponseContext.ResponseContextType.FORWARD);
+        return new ResponseContext(PathOfJsp.SHOW_USER_LOGIN_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

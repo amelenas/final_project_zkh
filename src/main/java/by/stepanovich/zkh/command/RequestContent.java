@@ -17,11 +17,14 @@ public interface RequestContent {
 
     void insertAttributes(HttpServletRequest request);
 
+    String getServletContextParameters(String key);
+
+    void setServletContextParameters(String key, String attribute);
+
     String[] getRequestParameter(String key);
 
     Object getRequestAttribute(String key);
 
     Object getSessionAttribute(String key);
-
 
 }

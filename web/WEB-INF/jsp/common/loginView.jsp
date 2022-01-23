@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <jsp:include page="common/header.jsp"/>
+    <jsp:include page="header.jsp"/>
    </head>
 <body>
 <h3>Login Page</h3>
@@ -14,6 +14,7 @@
 <form method="POST" action="${pageContext.request.contextPath}/controller?command=log_in">
     <br/>
     <h3>${failedRegisterMessage}</h3><br/>
+    <h3>${successfulMessage}</h3><br/>
     <strong>${errorLoginMessage}</strong>
     <br/>
     <input type="hidden" name="redirectId" value="${param.redirectId}" />
@@ -37,5 +38,5 @@
 </form>
  <br>
 </body>
-<jsp:include page="common/footer.jsp"/>
+<jsp:include page="footer.jsp"/>
 </html>

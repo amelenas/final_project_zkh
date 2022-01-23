@@ -1,18 +1,18 @@
 package by.stepanovich.zkh.command;
 
-
-import by.stepanovich.zkh.command.order.RegisterOrder;
-import by.stepanovich.zkh.command.order.SavePhoto;
+import by.stepanovich.zkh.command.order.CancelSingleOrderCommand;
+import by.stepanovich.zkh.command.order.RegisterOrderCommand;
+import by.stepanovich.zkh.command.order.SavePhotoCommand;
 import by.stepanovich.zkh.command.page.*;
 import by.stepanovich.zkh.command.common.LogInCommand;
 import by.stepanovich.zkh.command.common.LogOutCommand;
 import by.stepanovich.zkh.command.common.RegisterCommand;
+import by.stepanovich.zkh.command.user.ShowAllOrderByUserId;
 import by.stepanovich.zkh.command.user.ShowRegisterRequestPage;
 
 import java.util.EnumMap;
 
 public class CommandManager {
-    private static CommandManager instance;
     private final EnumMap<CommandName, Command> commands = new EnumMap<>(CommandName.class);
 
     private CommandManager() {
@@ -24,19 +24,21 @@ public class CommandManager {
         commands.put(CommandName.SHOW_REGISTER, new ShowUserRegisterPageCommand());
         commands.put(CommandName.SHOW_LOGIN, new ShowUserLoginPageCommand());
         commands.put(CommandName.USER_INFO, new ShowProfileCommand());
-        commands.put(CommandName.REGISTER_ORDER, new RegisterOrder());
+        commands.put(CommandName.REGISTER_ORDER, new RegisterOrderCommand());
         commands.put(CommandName.SHOW_MAIN_PAGE, new ShowMainPageCommand());
-        commands.put(CommandName.SAVE_PHOTO, new SavePhoto());
+        commands.put(CommandName.SAVE_PHOTO, new SavePhotoCommand());
         commands.put(CommandName.SHOW_REGISTER_REQUEST_PAGE, new ShowRegisterRequestPage());
+        commands.put(CommandName.SHOW_ALL_USER_ORDERS, new ShowAllOrderByUserId());
+        commands.put(CommandName.CANCEL_SINGLE_ORDER, new CancelSingleOrderCommand());
+    }
+
+    public static class CommandManagerHolder {
+        public static final CommandManager HOLDER_INSTANCE = new CommandManager();
     }
 
     public static CommandManager getInstance() {
-        if (instance == null) {
-            instance = new CommandManager();
-        }
-        return instance;
+        return CommandManagerHolder.HOLDER_INSTANCE;
     }
-
     public void addCommand(CommandName commandName, Command command) {
         commands.put(commandName, command);
     }

@@ -1,8 +1,8 @@
 package by.stepanovich.zkh.dao.impl;
 
-import by.stepanovich.zkh.connection.ConnectionBuilder;
 import by.stepanovich.zkh.connection.exception.ConnectionPoolException;
 import by.stepanovich.zkh.dao.UserDao;
+import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.entity.UserStatus;
@@ -20,13 +20,12 @@ import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
 
 
 public class UserDaoImpl implements UserDao {
-    private static final Logger LOGGER = LogManager.getLogger(UserDaoImpl.class);
 
     private static final String REGISTER_ITEM_SQL = "INSERT INTO users (email, password, user_name, surname, phone, user_status, id_role) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String FIND_USER_BY_EMAIL_SQL = "SELECT * FROM users where email = ?";
     private static final String FIND_USER_BY_ID_SQL = "SELECT * FROM users where id_user = ?";
 
-    public Optional<User> registerUser(String email, String password, String userName, String userSurname, String phone) {
+    public Optional<User> registerUser(String email, String password, String userName, String userSurname, String phone) throws DaoException {
 
         try (Connection connection = getInstance().retrieveConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM_SQL);
@@ -38,13 +37,13 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setInt(6, 1);
             preparedStatement.setInt(7, 1);
             preparedStatement.executeUpdate();
-        } catch (SQLException | ConnectionPoolException sql) {
-            LOGGER.error(sql);
+        } catch (SQLException | ConnectionPoolException e) {
+          throw new DaoException("Exception during user registration", e);
         }
         return findByEmail(email);
     }
 
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(String email) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL_SQL);
             preparedStatement.setString(1, email);
@@ -53,8 +52,8 @@ public class UserDaoImpl implements UserDao {
                 User user = readUser(resultSet);
                 return Optional.of(user);
             }
-        } catch (SQLException | ConnectionPoolException sql) {
-            LOGGER.error(sql);
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception when accessing the data source", e);
         }
         return Optional.empty();
     }
@@ -71,20 +70,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(int id) {
+    public Optional<User> findById(long id) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID_SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 User user = readUser(resultSet);
                 return Optional.of(user);
             }
         } catch (SQLException | ConnectionPoolException e) {
-            e.printStackTrace();
-            LOGGER.error(Arrays.toString(e.getStackTrace()));
+            throw new DaoException("Exception when accessing the data source", e);
         }
         return Optional.empty();
     }
-
 }

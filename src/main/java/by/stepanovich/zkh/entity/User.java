@@ -1,10 +1,11 @@
 package by.stepanovich.zkh.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Integer userId;
+    private long userId;
     private String email;
     private String password;
     private String userName;
@@ -13,6 +14,8 @@ public class User implements Serializable {
     private UserStatus userStatus;
     private Role role;
 
+    public User() {
+    }
 
     public User(String email, String password, String userName, String userSurname, String phone) {
         this.email = email;
@@ -22,7 +25,7 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public User(int userId, String email, String password, String userName, String userSurname, String phone, UserStatus userStatus, Role role) {
+    public User(long userId, String email, String password, String userName, String userSurname, String phone, UserStatus userStatus, Role role) {
         this.userId = userId;
         this.email = email;
         this.password = password;
@@ -33,11 +36,11 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -97,36 +100,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (o.getClass() != this.getClass()) return false;
-        User user = (User) o;
-        return (userId == user.userId || (userId != null && userId.equals(user.userId))) &&
-                (email == user.email || (email != null && email.equals(user.email))) &&
-                (password == user.password || (password != null && password.equals(user.password))) &&
-                (userName == user.userName || (userName != null && userName.equals(user.userName))) &&
-                (userSurname == user.userSurname || (userSurname != null && userSurname.equals(user.userSurname))) &&
-                (phone == user.phone || (phone != null && phone.equals(user.phone))) &&
-                (userStatus == user.userStatus || (userStatus != null && userStatus.equals(user.userStatus))) &&
-                (role == user.role || (role != null && role.equals(user.role)));
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (userId == null ? 0 : userId.hashCode());
-        result = prime * result + (email == null ? 0 :email.hashCode());
-        result = prime * result + (password == null ? 0 :password.hashCode());
-        result = prime * result + (userName == null ? 0 :userName.hashCode());
-        result = prime * result + (userSurname == null ? 0 :userSurname.hashCode());
-        result = prime * result + (phone == null ? 0 :phone.hashCode());
-        result = prime * result + (userStatus == null ? 0 : userStatus.hashCode());
-        result = prime * result + (role == null ? 0 : role.hashCode());
-        return result;
-    }
 
     @Override
     public String toString() {
@@ -141,5 +114,22 @@ public class User implements Serializable {
         builder.append(", userStatus = ").append(userStatus);
         builder.append(", idRole = ").append(role);
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getUserId() == user.getUserId() && getEmail().equals(user.getEmail())
+                && getPassword().equals(user.getPassword()) && getUserName().equals(user.getUserName())
+                && getUserSurname().equals(user.getUserSurname()) && getPhone().equals(user.getPhone()) &&
+                getUserStatus() == user.getUserStatus() && getRole() == user.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUserId(), getEmail(), getPassword(), getUserName(),
+                getUserSurname(), getPhone(), getUserStatus(), getRole());
     }
 }

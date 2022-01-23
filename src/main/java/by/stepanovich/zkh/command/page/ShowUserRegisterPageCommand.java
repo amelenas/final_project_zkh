@@ -2,7 +2,7 @@ package by.stepanovich.zkh.command.page;
 
 
 import by.stepanovich.zkh.command.Command;
-import by.stepanovich.zkh.command.Path;
+import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
 
@@ -16,6 +16,6 @@ public class ShowUserRegisterPageCommand implements Command {
             req.setRequestAttribute(ERROR_MESSAGE, "You've already registered!");
             return new ShowMainPageCommand().execute(req);
         }
-        return new ResponseContext(Path.SHOW_REGISTER_PAGE, ResponseContext.ResponseContextType.FORWARD);
+        return new ResponseContext(PathOfJsp.SHOW_REGISTER_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

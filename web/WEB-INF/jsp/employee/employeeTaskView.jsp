@@ -7,12 +7,12 @@
    </head>
 <body>
 
-<jsp:include page="common/header.jsp"/>
+<jsp:include page="../common/header.jsp"/>
 
 <h3>Employee Task</h3>
 
 
-<jsp:include page="common/footer.jsp"/>
+<jsp:include page="../common/footer.jsp"/>
 
 </body>
 </html>

@@ -20,7 +20,6 @@ public class LocaleFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-
         if (httpRequest.getSession(false) != null
                 && httpRequest.getSession(false).getAttribute(LOCALE) == null) {
             httpRequest.getSession().setAttribute(LOCALE, EN);
@@ -29,6 +28,7 @@ public class LocaleFilter implements Filter {
     }
 
     @Override
-    public void destroy() {Filter.super.destroy();
+    public void destroy() {
+        Filter.super.destroy();
     }
 }

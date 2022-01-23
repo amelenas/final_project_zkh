@@ -69,17 +69,14 @@ public class SessionRequestContent implements RequestContent {
             String key = initParameterNames.nextElement();
             servletContextParameters.put(key, servletContext.getInitParameter(key));
         }
-
     }
 
     @Override
     public void insertAttributes(HttpServletRequest request) {
-
         if (isInvalidateSession()) {
             request.getSession().invalidate();
             return;
         }
-
         HttpSession session = request.getSession();
         requestAttributes.forEach(request::setAttribute);
         sessionAttributes.forEach(session::setAttribute);
@@ -100,6 +97,15 @@ public class SessionRequestContent implements RequestContent {
         return sessionAttributes.get(key);
     }
 
+    @Override
+    public String getServletContextParameters(String key) {
+        return servletContextParameters.get(key);
+    }
+
+    @Override
+    public void setServletContextParameters(String key, String attribute) {
+        servletContextParameters.put(key, attribute);
+    }
 
     @Override
     public void setRequestAttribute(String key, Object attribute) {
@@ -117,14 +123,12 @@ public class SessionRequestContent implements RequestContent {
         try {
             items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : items) {
-                System.out.println(item);
                 if (!item.isFormField() && item.getSize() != 0 &&
-                    item.getFieldName().equalsIgnoreCase(PHOTO)) {
-                    String fileName = item.getName();
-                    StringBuffer fileNameForSaving = new StringBuffer(fileName);
+                        item.getFieldName().equalsIgnoreCase(PHOTO)) {
+                    StringBuilder fileNameForSaving = new StringBuilder(item.getName());
                     fileNameForSaving.insert(0, ADD_TO_PHOTO_NAME);
                     item.write(new File(bundle.getString(SAVE_DIRECTORY) + File.separator + fileNameForSaving));
-                    session.setAttribute(PHOTO, fileName);
+                    session.setAttribute(PHOTO, fileNameForSaving);
                     session.setAttribute(PHOTO_MESSAGE, PHOTO_SAVED);
                 }
             }
