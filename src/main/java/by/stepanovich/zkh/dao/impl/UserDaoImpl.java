@@ -6,29 +6,42 @@ import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.entity.UserStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
 
 
 public class UserDaoImpl implements UserDao {
 
-    private static final String REGISTER_ITEM_SQL = "INSERT INTO users (email, password, user_name, surname, phone, user_status, id_role) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String FIND_USER_BY_EMAIL_SQL = "SELECT * FROM users where email = ?";
-    private static final String FIND_USER_BY_ID_SQL = "SELECT * FROM users where id_user = ?";
+    private static final String REGISTER_ITEM = """
+    INSERT INTO users (email, password, user_name, surname, phone, user_status, id_role) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)""";
+    private static final String FIND_USER_BY_EMAIL = "SELECT * FROM users where email = ?";
+    private static final String FIND_USER_BY_ID = "SELECT * FROM users where id_user = ?";
+    private static final String FIND_ALL_USERS = "SELECT * FROM users";
+    private static final String CHANGE_PASSWORD = """
+            UPDATE users
+            SET password = ?
+            WHERE id_user = ?""";
+    private static final String CHANGE_USER_DATA = """
+            UPDATE users
+            SET user_name = ?, 
+                surname = ?,
+                email = ?, 
+                phone = ?
+            WHERE id_user = ?""";
 
     public Optional<User> registerUser(String email, String password, String userName, String userSurname, String phone) throws DaoException {
 
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, userName);
@@ -45,7 +58,7 @@ public class UserDaoImpl implements UserDao {
 
     public Optional<User> findByEmail(String email) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -72,7 +85,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> findById(long id) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -83,5 +96,60 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("Exception when accessing the data source", e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Set<User> findAllUsers() throws DaoException {
+        Set<User>users = new HashSet<>();
+        try (Connection connection = getInstance().retrieveConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_USERS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = readUser(resultSet);
+                users.add(user);
+            }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception when accessing the data source", e);
+        }
+        return users;
+    }
+
+    @Override
+    public boolean changePassword(String newPassword, long id) throws DaoException {
+        try (Connection connection = getInstance().retrieveConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_PASSWORD);
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception in changePassword method in OrderDao ", e);
+        }
+    }
+
+    @Override
+    public Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws DaoException {
+        try (Connection connection = getInstance().retrieveConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_USER_DATA);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, phone);
+            preparedStatement.setLong(5, id);
+            preparedStatement.executeUpdate();
+            return findById(id);
+        } catch (SQLException | ConnectionPoolException | DaoException e) {
+            throw new DaoException("Exception in updateUserData method in OrderDao ", e);
+        }
+    }
+
+    public static void main(String[] args) {
+        UserDao userDao = new UserDaoImpl();
+        try {
+            userDao.updateUserData(4, "Екатерина", "Романова", "ekaterina@mail.ru", "+375255554568" );
+           // userDao.changePassword("123", 1);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
     }
 }

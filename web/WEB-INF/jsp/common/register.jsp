@@ -5,9 +5,9 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="signUp.page" var="title"/>
-<fmt:message key="signUp.page.phone" var="phone"/>
-<fmt:message key="signUp.page.password" var="password"/>
+<fmt:message key="signUp.page" var="assignPerformer"/>
+<fmt:message key="common.page.phone" var="phone"/>
+<fmt:message key="common.page.password" var="password"/>
 <fmt:message key="password.helper" var="passwordHelper"/>
 <fmt:message key="signUp.page.conformPassword" var="confirm"/>
 <fmt:message key="common.page.firstName" var="name"/>
@@ -34,7 +34,7 @@
         }
     </script>
 
-    <title>${title}</title>
+    <title>${assignPerformer}</title>
 
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
@@ -52,12 +52,12 @@
                        value="${requestScope.formData['email']}">
                 </div>
             </div>
-<br/>
+                <br/>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="validationServer02">${phone}</label>
                     <input type="text" name="phone" class="form-control" id="validationServer02"
-                           pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
+                           required pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?"
                            placeholder="+375 _ _ _ _ _ _ _ _ _ _"
                            value="${requestScope.formData['phone']}">
                     <small id="helpBlock1" class="form-text text-muted">
@@ -110,13 +110,13 @@
             <div class="row">
                 <c:if test="${requestScope.errorMessage != null}">
                     <div class="form-group">
-                        <div class="col-md-6 mb-3">
                             <div class="err-message-from-server">
+                                <span style="color: maroon; ">
                                 <fmt:setBundle basename="locale" var="rb"/>
                                 <fmt:message key="${requestScope.errorMessage}" bundle="${rb}"/>
+                                </span>
                             </div>
                         </div>
-                    </div>
                 </c:if>
             </div>
 

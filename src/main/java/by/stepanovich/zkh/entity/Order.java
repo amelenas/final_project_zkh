@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
-public class Order implements Serializable {
+public class Order implements Serializable, Comparable<Order> {
     private static final long serialVersionUID = 12L;
 
     private long registrationId;
@@ -175,5 +175,10 @@ public class Order implements Serializable {
     public int hashCode() {
         return Objects.hash(getRegistrationId(), getUserId(), getStreet(), getHouseNumber(), getScopeOfWork(),
                 getDesirableTime(), openingDate, closingDate, getOrderStatus(), getAdditionalInformation(), getPictureAddress(), isPrivate(), getMark());
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return Long.compare(registrationId, o.registrationId);
     }
 }

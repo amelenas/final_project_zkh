@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
-public class OrderSet implements Serializable {
+public class ReportSet implements Serializable {
     private static final long serialVersionUID = 1693L;
 
     private Set set;
 
-    public OrderSet() {
+    public ReportSet() {
     }
 
     public void setSet(Set set) {
@@ -20,16 +20,15 @@ public class OrderSet implements Serializable {
         return set;
     }
 
-    public OrderSet(Set set) {
+    public ReportSet(Set set) {
         this.set = set;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderSet)) return false;
-        OrderSet orderSet = (OrderSet) o;
-        return getSet().equals(orderSet.getSet());
+        if (!(o instanceof ReportSet reportSet)) return false;
+        return getSet().equals(reportSet.getSet());
     }
 
     @Override

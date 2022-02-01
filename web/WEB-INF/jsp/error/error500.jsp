@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="bundle/locale"/>
+<fmt:setBundle basename="locale"/>
 
-<fmt:message key="error500.page" var="title"/>
+<fmt:message key="error500.page" var="assignPerformer"/>
 <fmt:message key="error500.request" var="request"/>
 <fmt:message key="error500.servlet" var="servlet"/>
 <fmt:message key="error500.statusCode" var="code"/>
@@ -24,11 +24,11 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet">
-    <title>${title}</title>
+    <title>${assignPerformer}</title>
 </head>
 <body>
-
-${request} ${pageContext.errorData.requestURI} is failed <br/>
+<span style="color: black; ">
+ ${request} ${pageContext.errorData.requestURI} is failed <br/>
 <hr/>
 ${servlet} ${pageContext.errorData.servletName} <br/>
 <hr/>
@@ -43,8 +43,8 @@ ${stackTrace} <br/>
     <c:out value="${stackTraceElement}"/><br/>
 </c:forEach><br/>
 <hr/>
-
-<a href="${pageContext.request.contextPath}/index.jsp">${home}</a>
+</span>
+<a href="${pageContext.request.contextPath}/controller?command=show_main_page">${home}</a>
 
 </body>
 </html>

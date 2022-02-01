@@ -7,6 +7,7 @@ import by.stepanovich.zkh.entity.Order;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public interface OrderDao {
 
@@ -19,4 +20,10 @@ public interface OrderDao {
     boolean cancelSingleOrder(long userId) throws DaoException;
 
     Map<String, String> extractPhotos() throws DaoException;
+
+    Set<Order> findAllOrder() throws DaoException;
+
+    List<Order> findAllNewOrders() throws DaoException;
+
+    Optional<Order>findById(long orderID) throws DaoException;
 }

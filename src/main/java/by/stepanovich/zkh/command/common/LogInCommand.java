@@ -2,23 +2,22 @@ package by.stepanovich.zkh.command.common;
 
 import by.stepanovich.zkh.command.Command;
 import by.stepanovich.zkh.command.PathOfJsp;
-import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
-import by.stepanovich.zkh.command.page.ShowProfileCommand;
 import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.exception.ServiceException;
+import by.stepanovich.zkh.service.factory.ServiceFactory;
 import by.stepanovich.zkh.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class LogInCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(LogInCommand.class);
     public static final String AUTHORIZATION = "authorization";
-    public static final String PROPERTY_NAME = "generalKeys";
     private static final String ROLE = "role";
     private static final String USER_ID = "id";
     private static final String NAME = "name";
@@ -27,41 +26,43 @@ public class LogInCommand implements Command {
     private static final String PASSWORD = "password";
     private static final String STATUS = "status";
     public static final String CURRENT_PAGE = "current_page";
-    public static final String ERROR_LOGIN_MASSAGE = "errorLoginMessage";
+    private static final String LOGIN_MESSAGE = "loginMessage";
+    public static final String INVALID_CREDENTIALS = "login.invalid.credentials";
 
 
-    private static final UserService USER_SERVICE = new UserServiceImpl();
+    private UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
 
     @Override
-    public ResponseContext execute(RequestContent req) {
+    public ResponseContext execute(HttpServletRequest request) {
         Optional<User> optionalUser = Optional.empty();
+        HttpSession session = request.getSession();
         try {
             optionalUser = USER_SERVICE
-                    .login(req.getRequestParameter(EMAIL)[0], req.getRequestParameter(PASSWORD)[0]);
+                    .login(request.getParameter(EMAIL), request.getParameter(PASSWORD));
         } catch (ServiceException e) {
             LOGGER.error("Exception in LogInCommand", e);
         }
 
         if (optionalUser.isPresent()) {
-            setLoginAttributesIntoSession(req, optionalUser.get());
-            req.setSessionAttribute(CURRENT_PAGE, PathOfJsp.SHOW_PROFILE_PAGE);
-            return new ShowProfileCommand().execute(req);
+            setLoginAttributesIntoSession(request, optionalUser.get());
+            session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_PROFILE_PAGE);
+            return new ShowProfileCommand().execute(request);
         } else {
-            ResourceBundle generalKeys = ResourceBundle.getBundle(PROPERTY_NAME);
-            req.setSessionAttribute(ERROR_LOGIN_MASSAGE, generalKeys.getString("message.login.error"));
-            req.setSessionAttribute(CURRENT_PAGE, PathOfJsp.SHOW_USER_LOGIN_PAGE);
+            request.setAttribute(LOGIN_MESSAGE, INVALID_CREDENTIALS);
+            session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_USER_LOGIN_PAGE);
             return new ResponseContext(PathOfJsp.SHOW_USER_LOGIN_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }
     }
 
-    private void setLoginAttributesIntoSession(RequestContent req, User user) {
-        req.setSessionAttribute(AUTHORIZATION, Boolean.TRUE);
-        req.setSessionAttribute(USER_ID, user.getUserId());
-        req.setSessionAttribute(EMAIL, user.getEmail());
-        req.setSessionAttribute(NAME, user.getUserName());
-        req.setSessionAttribute(SURNAME, user.getUserSurname());
-        req.setSessionAttribute(ROLE, user.getRole());
-        req.setSessionAttribute(STATUS, user.getUserStatus());
-        req.setSessionAttribute(ERROR_LOGIN_MASSAGE, null);
+    private void setLoginAttributesIntoSession(HttpServletRequest request, User user) {
+        HttpSession session = request.getSession();
+        session.setAttribute(AUTHORIZATION, Boolean.TRUE);
+        session.setAttribute(USER_ID, user.getUserId());
+        session.setAttribute(EMAIL, user.getEmail());
+        session.setAttribute(NAME, user.getUserName());
+        session.setAttribute(SURNAME, user.getUserSurname());
+        session.setAttribute(ROLE, user.getRole());
+        session.setAttribute(STATUS, user.getUserStatus());
+        session.setAttribute(LOGIN_MESSAGE, null);
     }
 }

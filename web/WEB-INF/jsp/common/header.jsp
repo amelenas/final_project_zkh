@@ -6,9 +6,9 @@
 <fmt:setBundle basename="locale"/>
 
 <fmt:message key="navigation.home" var="home"/>
-<fmt:message key="navigation.title" var="title"/>
+<fmt:message key="navigation.title" var="assignPerformer"/>
 <fmt:message key="navigation.logOut" var="logOut"/>
-<fmt:message key="navigation.logIn" var="logIn"/>
+<fmt:message key="common.logIn" var="logIn"/>
 <fmt:message key="navigation.signUp" var="signUp"/>
 <fmt:message key="navigation.language" var="language"/>
 <fmt:message key="navigation.profile" var="profile"/>
@@ -27,7 +27,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand"  href="${pageContext.request.contextPath}/controller?command=show_main_page">${title}</a>
+        <a class="navbar-brand"  href="${pageContext.request.contextPath}/controller?command=show_main_page">${assignPerformer}</a>
                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page"

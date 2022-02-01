@@ -4,6 +4,7 @@ import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.User;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface UserDao {
     Optional<User> findByEmail(String email) throws DaoException;
@@ -12,4 +13,11 @@ public interface UserDao {
                                 String userSurname, String phone) throws DaoException;
 
     Optional<User> findById(long id) throws DaoException;
+
+    Set<User> findAllUsers() throws DaoException;
+
+    boolean changePassword(String newPassword, long id) throws DaoException;
+
+    Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws DaoException;
+
 }

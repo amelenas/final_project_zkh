@@ -6,10 +6,10 @@
 
     <tlib-version>1.0</tlib-version>
     <short-name>table</short-name>
-    <uri>/WEB-INF/tld/tariff.tld</uri>
+    <uri>/WEB-INF/tld/report.tld</uri>
     <tag>
-        <name>jspset</name>
-        <tag-class>by.stepanovich.zkh.tablebuild.TableBuilder</tag-class>
+        <name>orderTable</name>
+        <tag-class>by.stepanovich.zkh.tablebuild.TableOrder</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>set</name>
@@ -18,4 +18,14 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>userTable</name>
+        <tag-class>by.stepanovich.zkh.tablebuild.UserOrder</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>set</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

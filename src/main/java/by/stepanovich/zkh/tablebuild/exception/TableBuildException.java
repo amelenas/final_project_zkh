@@ -1,6 +1,7 @@
 package by.stepanovich.zkh.tablebuild.exception;
 
 public class TableBuildException extends Exception{
+
     public TableBuildException() {
         super();
     }

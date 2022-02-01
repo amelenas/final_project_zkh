@@ -9,6 +9,7 @@
 <fmt:message key="common.page.firstName" var="userName"/>
 <fmt:message key="common.page.lastName" var="userSurname"/>
 <fmt:message key="common.page.email" var="userEmail"/>
+<fmt:message key="navigation.profile" var="profile"/>
 
 <fmt:message key="admin.updateProfile" var="updateProfile"/>
 <fmt:message key="admin.updatePassword" var="updatePassword"/>
@@ -32,10 +33,23 @@
             window.history.forward();
         }
     </script>
+    <input type="hidden" id="refreshed" value="no">
+
     <title>${profile}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
-<jsp:include page="../common/header.jsp"/>
+<header>
+    <jsp:include page="../common/header.jsp"/>
+</header>
+<c:if test="${requestScope.message != null}">
+    <div class="form-group form-check" style="color: red">
+        <input type="hidden" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">
+            <fmt:setBundle basename="locale" var="rb"/>
+            <fmt:message key="${requestScope.message}" bundle="${rb}"/>
+        </label>
+    </div>
+</c:if>
 <div class="container" style="height: 80vh; color: black; font-size: 18px">
 
     <dl class="row">
@@ -55,29 +69,28 @@
 <hr/>
 <div class="row">
     <div class="btn-group">
-        <button class="btn"><a href="${pageContext.request.contextPath}/controller?command=go_to_update_profile"
-                               style="color: midnightblue; font-size: 18px">${updateProfile}</a></button>
+        <button class="btn"><a href="${pageContext.request.contextPath}/controller?command=update_profile_page"
+                               style="color: midnightblue; font-size: 18px">${updateProfile}</a>
+        </button>
 
 
-        <button class="btn"><a href="${pageContext.request.contextPath}/jsp/update-password.jsp"
+        <button class="btn"><a href="${pageContext.request.contextPath}/controller?command=password_change_page"
                                style="color: midnightblue; font-size: 18px">${updatePassword}</a>
         </button>
+
+        <c:choose>
+            <c:when test="${sessionScope.role=='USER'}">
+                <button class="btn"><a href="${pageContext.request.contextPath}/controller?command=show_all_user_orders"
+                                       style="color: midnightblue; font-size: 18px">${allOrders}</a>
+                </button>
+            </c:when>
+        </c:choose>
     </div>
-    <c:choose>
-        <c:when test="${sessionScope.role=='USER'}">
-            <dd class="col-sm-9">
-
-                <dl class="row">
-                       <a href="${pageContext.request.contextPath}/controller?command=show_all_user_orders"
-                        style="color: midnightblue; font-size: 18px">${allOrders}</a>
-                </dl>
-            </dd>
-        </c:when>
-    </c:choose>
-    </dl>
-</div>
 </div>
 
-<jsp:include page="../common/footer.jsp"/>
+</div>
 </body>
+<footer>
+    <jsp:include page="../common/footer.jsp"/>
+</footer>
 </html>

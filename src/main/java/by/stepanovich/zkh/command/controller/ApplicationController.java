@@ -1,9 +1,7 @@
 package by.stepanovich.zkh.command.controller;
 
 import by.stepanovich.zkh.command.Command;
-import by.stepanovich.zkh.command.RequestContent;
 import by.stepanovich.zkh.command.ResponseContext;
-import by.stepanovich.zkh.command.SessionRequestContentFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,10 +30,12 @@ public class ApplicationController extends HttpServlet {
     private void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String commandName = request.getParameter(COMMAND_PARAMETER_NAME);
+
+        System.out.println(commandName);/////////////////////////////////////////////////////
+
         Command command = Command.of(commandName);
-        RequestContent sessionRequestContent = SessionRequestContentFactory.defineContent(request);
-        ResponseContext responseContext = command.execute(sessionRequestContent);
-        sessionRequestContent.insertAttributes(request);
+        ResponseContext responseContext = command.execute(request);
+
         if (responseContext.getResponseContextType().equals(ResponseContext.ResponseContextType.REDIRECT)) {
             response.sendRedirect(request.getContextPath() + responseContext.getPagePath());
         } else {

@@ -3,7 +3,7 @@ package by.stepanovich.zkh.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
     private static final long serialVersionUID = 1L;
     private long userId;
     private String email;
@@ -131,5 +131,11 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(getUserId(), getEmail(), getPassword(), getUserName(),
                 getUserSurname(), getPhone(), getUserStatus(), getRole());
+    }
+
+
+    @Override
+    public int compareTo(User o) {
+        return Long.compare(userId, o.userId);
     }
 }

@@ -12,31 +12,45 @@ import java.util.*;
 import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
 
 public class OrderDaoImpl implements OrderDao {
-    private static final String FIND_USER_BY_ID_WORK_OPEN_DATE_SQL = "SELECT * FROM orders where (user_id=?  and opening_date=?)";
+    private static final String FIND_USER_ORDER_BY_ID_WORK_OPEN_DATE = """
+            SELECT *
+            FROM orders where (user_id=?  and opening_date=?)""";
+    private static final String FIND_ALL_NEW_ORDERS = """
+            SELECT *
+            FROM orders
+            WHERE order_status = 1""";
+    private static final String FIND_ALL_ORDERS_SQL = """
+            SELECT *
+            FROM orders""";
     private static final String REGISTER_ITEM_SQL = """
             INSERT INTO orders (user_id, street, house_number, apartment_number, scope_of_work,
-            desirable_time_of_work, opening_date, order_status, picture) 
+            desirable_time_of_work, opening_date, order_status, picture)
             VALUES (?, ?, ?, ?, ?, ?, ?,?,?)""";
-    private static final String FIND_ALL_ORDER_BY_USER_ID = """
-            SELECT * FROM orders 
+    private static final String FIND_ALL_ORDER_BY_USER_ID_SQL = """
+            SELECT *
+            FROM orders
             WHERE user_id = ?""";
+    private static final String FIND_ORDER_BY_ID = """
+            SELECT *
+            FROM orders
+            WHERE registration_number_id = ?""";
 
-    private static final String CANCEL_ITEM_SQL = """
-            UPDATE orders 
+    private static final String CANCEL_ORDER_SQL = """
+            UPDATE orders
             SET order_status = ?
             WHERE registration_number_id = ?""";
 
-    private static final String SQL_FIND_PHOTO = """
+    private static final String FIND_PHOTO_SQL = """
             SELECT picture, scope_of_work FROM orders
-            WHERE NOT picture IN ('null') AND picture is not null
+            WHERE NOT picture IN ('null') AND picture is not null AND NOT picture IN ('')
             ORDER BY opening_date
             DESC LIMIT 6""";
 
-    /*"SELECT picture FROM orders WHERE opening_date > UTC_TIMESTAMP() is not null";*/
+
     @Override
     public Optional<Order> registerOrder(int userId, String street, String houseNumber, String apartment, String scopeOfWork, String desirableTimeOfWork, String photo) throws DaoException {
         String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()));
-        String currentTime = timestamp.substring(0, timestamp.indexOf(".")); ;
+        String currentTime = timestamp.substring(0, timestamp.indexOf("."));
         try (Connection connection = getInstance().retrieveConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM_SQL);
@@ -45,7 +59,6 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setString(3, houseNumber);
             preparedStatement.setString(4, apartment);
             preparedStatement.setString(5, scopeOfWork);
-            System.out.println(currentTime +"при записи");
             preparedStatement.setTimestamp(6, Timestamp.valueOf(desirableTimeOfWork));
             preparedStatement.setTimestamp(7, Timestamp.valueOf(currentTime));
             preparedStatement.setInt(8, 1);
@@ -54,15 +67,14 @@ public class OrderDaoImpl implements OrderDao {
         } catch (SQLException | ConnectionPoolException sql) {
             throw new DaoException("Exception in OrderDaoImpl ", sql);
         }
-        System.out.println(currentTime +"при передаче");
-        return findByIdScopeOfWorkDate(userId, currentTime);
+         return findByIdScopeOfWorkDate(userId, currentTime);
     }
 
     @Override
     public List<Order> findAllUsersOrderById(long userId) throws DaoException {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement statement = connection.prepareStatement(FIND_ALL_ORDER_BY_USER_ID);
+            PreparedStatement statement = connection.prepareStatement(FIND_ALL_ORDER_BY_USER_ID_SQL);
             statement.setLong(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -81,7 +93,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean cancelSingleOrder(long orderId) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_ITEM_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_ORDER_SQL);
             preparedStatement.setInt(1, 4);
             preparedStatement.setLong(2, orderId);
             preparedStatement.executeUpdate();
@@ -95,9 +107,8 @@ public class OrderDaoImpl implements OrderDao {
     public Map<String, String> extractPhotos() throws DaoException {
         Map<String, String> photos = new HashMap();
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_PHOTO);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println(resultSet);
+            Statement statement =  connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_PHOTO_SQL);
             while (resultSet.next()) {
                 photos.put(resultSet.getString(1), resultSet.getString(2));
             }
@@ -107,9 +118,57 @@ public class OrderDaoImpl implements OrderDao {
         return photos;
     }
 
+    @Override
+    public Set<Order> findAllOrder() throws DaoException {
+        Set<Order> orders = new HashSet<>();
+        try (Connection connection = getInstance().retrieveConnection()) {
+            Statement statement =  connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_ORDERS_SQL);
+                while (resultSet.next()) {
+                    Order order = readOrder(resultSet);
+                    orders.add(order);
+                }
+        } catch (SQLException | ConnectionPoolException e) {
+            throw new DaoException("Exception in findAllUsersOrderById method in OrderDao ", e);
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> findAllNewOrders() throws DaoException {
+        List <Order> allNewOrders = new ArrayList<>();
+        try (Connection connection = getInstance().retrieveConnection()) {
+            Statement statement =  connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(FIND_ALL_NEW_ORDERS);
+           while (resultSet.next()) {
+                Order order = readOrder(resultSet);
+                allNewOrders.add(order);
+            }
+        } catch (SQLException | ConnectionPoolException sql) {
+            throw new DaoException("Exception in OrderDaoImpl ", sql);
+        }
+        return allNewOrders;
+    }
+
+    @Override
+    public Optional<Order> findById(long orderID) throws DaoException {
+        try (Connection connection = getInstance().retrieveConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDER_BY_ID);
+            preparedStatement.setLong(1, orderID);
+             ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Order order = readOrder(resultSet);
+                return Optional.of(order);
+            }
+        } catch (SQLException | ConnectionPoolException sql) {
+            throw new DaoException("Exception in OrderDaoImpl ", sql);
+        }
+        return Optional.empty();
+    }
+
     private Optional<Order> findByIdScopeOfWorkDate(int userId, String opening_date) throws DaoException {
         try (Connection connection = getInstance().retrieveConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID_WORK_OPEN_DATE_SQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_ORDER_BY_ID_WORK_OPEN_DATE);
             preparedStatement.setInt(1, userId);
             preparedStatement.setTimestamp(2, Timestamp.valueOf(opening_date));
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -140,4 +199,14 @@ public class OrderDaoImpl implements OrderDao {
                 resultSet.getInt(14));
     }
 
+    public static void main(String[] args)  {
+        OrderDao orderDao = new OrderDaoImpl();
+        try {
+            //System.out.println(orderDao.findAllUsersOrderById(1));
+            //System.out.println(orderDao.findAllNewOrders());
+            System.out.println(orderDao.findById(2));
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="title"/>
+<fmt:message key="order.page.title" var="assignPerformer"/>
 <fmt:message key="order.page.uploadButton" var="upload"/>
 <fmt:message key="common.page.street" var="steet"/>
 <fmt:message key="common.page.house.number" var="houseNumber"/>
@@ -32,20 +32,19 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${title}</title>
+    <title>${assignPerformer}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <div class="container" style="height: 80vh">
     ${picture}
+        <p style="color: red;"> ${requestScope.photo_message}
+        <p style="color: red;">${requestScope.errorRegisterOrderMessage}
+        <p style="color: red;">${requestScope.successRegisterOrderMessage}
     <form method="post" enctype="multipart/form-data"
-          action="${pageContext.request.contextPath}/controller?command=save_photo">
-        <input type="file" name="photo" accept="image/*"/>&nbsp;<input type="submit" value="${upload}"/>
-        <p style="color: red;"> ${sessionScope.photo_message}
-    </form>
-        <p style="color: red;">${sessionScope.errorRegisterOrderMessage}
-        <p style="color: red;">${sessionScope.successRegisterOrderMessage}
+          action="${pageContext.request.contextPath}/controller?command=register_order">
+        <input type="file" name="photo" accept="image/*"/>
+
     <br/>
-    <form method="post" action="${pageContext.request.contextPath}/controller?command=register_order">
         <input type="hidden" name="redirectId" value="${param.redirectId}"/>
 
         ${steet}

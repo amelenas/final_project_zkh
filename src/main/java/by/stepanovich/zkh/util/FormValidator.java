@@ -1,5 +1,6 @@
 package by.stepanovich.zkh.util;
 
+
 public class FormValidator {
 
     private static final String CHECK_LOGIN_REGEX = "[A-Za-z0-9]{3,20}";
@@ -11,21 +12,19 @@ public class FormValidator {
     private static final String CHECK_EMAIL_REGEX =
             "^(?=.{1,45}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
-    private static final String CHECK_IMAGE_URL = "([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)";
-
-    private static final String CHECK_MONEY_REGEX = "^[0-9]{1,4}(\\.[0-9]{1,2})?$";
-
-    private static FormValidator instance;
+    private static final String CHECK_PHONE = "^(\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\s*)?$";
 
     private FormValidator() {
     }
 
-    public static FormValidator getInstance() {
-        if (instance == null) {
-            instance = new FormValidator();
-        }
-        return instance;
+    public static class FormValidatorHolder {
+        public static final FormValidator HOLDER_INSTANCE = new FormValidator();
     }
+
+    public static FormValidator getInstance() {
+        return FormValidator.FormValidatorHolder.HOLDER_INSTANCE;
+    }
+
 
     public boolean checkLogin(String login) {
         return login != null && login.matches(CHECK_LOGIN_REGEX);
@@ -43,15 +42,12 @@ public class FormValidator {
         return lastName != null && lastName.matches(CHECK_FIRST_AND_LAST_NAME);
     }
 
+    public boolean checkPhone(String phone) {
+        return phone != null && phone.matches(CHECK_PHONE);
+    }
+
     public boolean checkEmail(String email) {
         return email != null && email.matches(CHECK_EMAIL_REGEX);
     }
 
-    public boolean checkMoney(String money) {
-        return money != null && money.matches(CHECK_MONEY_REGEX);
-    }
-
-    public boolean checkImageUrl(String imageUrl) {
-        return imageUrl != null && imageUrl.matches(CHECK_IMAGE_URL);
-    }
 }

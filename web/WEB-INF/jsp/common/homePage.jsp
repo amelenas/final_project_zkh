@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="homePage.last.left.orders" var="title"/>
+<fmt:message key="homePage.last.left.orders" var="assignPerformer"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,18 +23,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
+<header> <jsp:include page="header.jsp"/></header>
 
-<jsp:include page="header.jsp"/>
 
-<h3>${title}</h3>
-<%--<div class="container">--%>
+
 <div class="container bgcont">
+    <h3>${assignPerformer}</h3>
     <div class="row background-row"></div>
 <div class="row row-cols-1 row-cols-md-2 g-4">
 <c:forEach items="${requestScope.pictures}" var="imageName">
     <div class="col">
         <div class="card" style="width: 30rem; height: 30rem;">
-   <%-- <div class="card" style="width: 20rem;">--%>
     <img src="${pageContext.request.contextPath}${imageName.key}" height="400" width="480"/>
         <div class="card-body">
             <p class="card-text">${imageName.value}</p>
@@ -45,7 +44,8 @@
 </div>
 </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<footer><jsp:include page="footer.jsp"/></footer>
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

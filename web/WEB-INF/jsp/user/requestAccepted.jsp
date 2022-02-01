@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="locale"/>
-<fmt:message key="request.home" var="title"/>
+<fmt:message key="request.home" var="assignPerformer"/>
 <fmt:message key="request.message" var="message"/>
 <fmt:message key="request.to.home.page" var="homePage"/>
 <!doctype html>
@@ -21,7 +21,7 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${title}</title>
+    <title>${assignPerformer}</title>
 
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
