@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="assignPerformer"/>
+<fmt:message key="order.page.title" var="thanks"/>
 <fmt:message key="order.page.emptyList" var="emptyList"/>
 <fmt:message key="order.registrationNumberId" var="registrationId"/>
 <fmt:message key="common.page.street" var="street"/>
@@ -35,7 +35,7 @@
             window.history.forward();
         }
     </script>
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
@@ -66,20 +66,20 @@
                     </thead>
 
                     <tbody>
-                    <c:forEach var="element" items="${requestScope.orderData}">
+                    <c:forEach var="key" items="${requestScope.orderData}">
                         <tr>
 
-                            <td>${element.registrationId}</td>
-                            <td>${element.street}</td>
-                            <td>${element.houseNumber}</td>
-                            <td>${element.apartment}</td>
-                            <td>${element.scopeOfWork}</td>
-                            <td>${element.desirableTime}</td>
-                            <td>${element.openingDate}</td>
-                            <td>${element.closingDate}</td>
-                            <td>${element.orderStatus}</td>
+                            <td>${key.registrationId}</td>
+                            <td>${key.street}</td>
+                            <td>${key.houseNumber}</td>
+                            <td>${key.apartment}</td>
+                            <td>${key.scopeOfWork}</td>
+                            <td>${key.desirableTime}</td>
+                            <td>${key.openingDate}</td>
+                            <td>${key.closingDate}</td>
+                            <td>${key.orderStatus}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/controller?command=cancel_single_order&registrationId=${element.registrationId}"
+                                <a href="${pageContext.request.contextPath}/controller?command=cancel_single_order&registrationId=${key.registrationId}"
                                    style="color: darkgreen">
                                         ${cancel}
                                 </a>
@@ -92,7 +92,5 @@
         </div>
     </c:otherwise>
 </c:choose>
-
-
 </body>
 </html>

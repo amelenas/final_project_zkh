@@ -8,13 +8,16 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 public class TableOrder extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger(TableOrder.class);
     private static final long serialVersionUID = 11L;
+    private static final String TABLE_BORDER = "</td><td>";
+    private static final String TABLE_BORDER_SIZE = "<table border=2>";
+    private static final String TOP_OF_TABLE = "<tr><th>Registration Id</th><th>User Id</th><th>Street</th>" +
+            "<th>House Number</th><th>Scope Of Work</th><th>Desirable Time</th><th>Opening Date</th>" +
+            "<th>Closing Date</th><th>Order Status</th><th></th></tr>";
     private ReportSet set;
 
     public TableOrder() {
@@ -35,11 +38,8 @@ public class TableOrder extends TagSupport {
         ArrayList<String> strings = new ArrayList<>();
        try {
             JspWriter out = pageContext.getOut();
-            out.write("<table border=2>");
-            out.write("<tr><th>Registration Id</th><th>User Id</th><th>Street</th>" +
-                    "<th>House Number</th><th>Scope Of Work</th><th>Desirable Time</th><th>Opening Date</th>" +
-                    "<th>Closing Date</th><th>Order Status</th><th>Additional Information</th>" +
-                    "<th>Is Private}</th><th>Mark</th><th></th></tr>");
+            out.write(TABLE_BORDER_SIZE);
+            out.write(TOP_OF_TABLE);
            for (Object objOrder : set.getSet()) {
                orders.add((Order) objOrder);
            }
@@ -49,29 +49,23 @@ public class TableOrder extends TagSupport {
                row.append("<tr>");
                row.append("<td>");
                row.append(order.getRegistrationId());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getUserId());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getStreet());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getHouseNumber());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getScopeOfWork());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getDesirableTime());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getOpeningDate());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getClosingDate());
-               row.append("</td><td>");
+               row.append(TABLE_BORDER);
                row.append(order.getOrderStatus());
-               row.append("</td><td>");
-               row.append(order.getAdditionalInformation());
-               row.append("</td><td>");
-               row.append(order.isPrivate());
-               row.append("</td>");
-               row.append("</td><td>");
-               row.append(order.getMark());
+               row.append(TABLE_BORDER);
                row.append("</td>");
                row.append("</tr>");
                strings.add(row.toString());

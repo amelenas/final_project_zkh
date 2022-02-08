@@ -1,12 +1,10 @@
 package by.stepanovich.zkh.service;
 
 
+import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
-import by.stepanovich.zkh.entity.UserStatus;
 import by.stepanovich.zkh.service.exception.ServiceException;
 
-import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,7 +19,11 @@ public interface UserService {
 
     Set <User> findAllUsers() throws ServiceException;
 
+    Set<User> findAllUsers(int page) throws ServiceException;
+
     Optional<User> findByEmail(String email) throws ServiceException;
 
     Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws ServiceException;
+
+    boolean changeRole(String email, Role role) throws ServiceException;
 }

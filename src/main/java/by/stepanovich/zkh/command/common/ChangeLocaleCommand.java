@@ -1,6 +1,5 @@
 package by.stepanovich.zkh.command.common;
 
-
 import by.stepanovich.zkh.command.Command;
 import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.ResponseContext;
@@ -9,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class ChangeLocaleCommand implements Command {
-    public static final String LOCALE = "locale";
-    public static final String CURRENT_PAGE = "current_page";
+    private static final String LOCALE = "locale";
+    private static final String CURRENT_PAGE = "current_page";
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {

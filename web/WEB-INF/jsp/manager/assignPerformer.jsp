@@ -35,7 +35,6 @@
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet">
     <script type="text/javascript">
         window.history.forward();
-
         function noBack() {
             window.history.forward();
         }
@@ -64,15 +63,15 @@
             </tr>
             </thead>
             <tr>
-                    <td>${requestScope.orderData.registrationId}</td>
-                    <td>${requestScope.orderData.street}</td>
-                    <td>${requestScope.orderData.houseNumber}</td>
-                    <td>${requestScope.orderData.apartment}</td>
-                    <td>${requestScope.orderData.scopeOfWork}</td>
-                    <td>${requestScope.orderData.desirableTime}</td>
-                    <td>${requestScope.orderData.openingDate}</td>
-                    <td>${requestScope.orderData.closingDate}</td>
-                    <td>${requestScope.orderData.orderStatus}</td>
+                <td>${requestScope.orderData.registrationId}</td>
+                <td>${requestScope.orderData.street}</td>
+                <td>${requestScope.orderData.houseNumber}</td>
+                <td>${requestScope.orderData.apartment}</td>
+                <td>${requestScope.orderData.scopeOfWork}</td>
+                <td>${requestScope.orderData.desirableTime}</td>
+                <td>${requestScope.orderData.openingDate}</td>
+                <td>${requestScope.orderData.closingDate}</td>
+                <td>${requestScope.orderData.orderStatus}</td>
             </tr>
         </table>
         <table class="table table-striped" style="height: inherit">
@@ -94,12 +93,12 @@
                 <td>${requestScope.phone}</td>
             </tr>
         </table>
-        <form action="${pageContext.request.contextPath}/controller?command=find_performer" method="post">
-        <select name="siteOfWork">
-            <c:forEach var="item" items="${requestScope.sitesOfWork}">
-                <option value="${item.idSiteOfWork}">${item.nameOfRegion}</option>
-            </c:forEach>
-        </select>
+        <form action="${pageContext.request.contextPath}/controller?command=find_performer&registrationId=${requestScope.orderData.registrationId}" method="post">
+            <select name="siteOfWork">
+                <c:forEach var="item" items="${requestScope.sitesOfWork}">
+                    <option value="${item.idSiteOfWork}">${item.nameOfRegion}</option>
+                </c:forEach>
+            </select>
             <br/>
             <select name="typeOfWorks">
                 <c:forEach var="item" items="${requestScope.typesOfWorks}">

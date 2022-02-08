@@ -7,7 +7,6 @@ import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.exception.ServiceException;
 import by.stepanovich.zkh.service.factory.ServiceFactory;
-import by.stepanovich.zkh.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,18 +16,18 @@ import java.util.Optional;
 
 public class LogInCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(LogInCommand.class);
-    public static final String AUTHORIZATION = "authorization";
+    private static final String AUTHORIZATION = "authorization";
     private static final String ROLE = "role";
     private static final String USER_ID = "id";
     private static final String NAME = "name";
     private static final String SURNAME = "userSurname";
     private static final String EMAIL = "email";
+    private static final String PHONE = "phone";
     private static final String PASSWORD = "password";
     private static final String STATUS = "status";
-    public static final String CURRENT_PAGE = "current_page";
+    private static final String CURRENT_PAGE = "current_page";
     private static final String LOGIN_MESSAGE = "loginMessage";
-    public static final String INVALID_CREDENTIALS = "login.invalid.credentials";
-
+    private static final String INVALID_CREDENTIALS = "login.invalid.credentials";
 
     private UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
 
@@ -58,6 +57,7 @@ public class LogInCommand implements Command {
         HttpSession session = request.getSession();
         session.setAttribute(AUTHORIZATION, Boolean.TRUE);
         session.setAttribute(USER_ID, user.getUserId());
+        session.setAttribute(PHONE, user.getPhone());
         session.setAttribute(EMAIL, user.getEmail());
         session.setAttribute(NAME, user.getUserName());
         session.setAttribute(SURNAME, user.getUserSurname());

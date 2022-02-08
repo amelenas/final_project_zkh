@@ -18,17 +18,14 @@ public class Order implements Serializable, Comparable<Order> {
     private Timestamp openingDate;
     private Timestamp closingDate;
     private OrderStatus orderStatus;
-    private String additionalInformation;
     private String pictureAddress;
-    private boolean isPrivate;
-    private int mark;
 
     public Order() {
     }
 
     public Order(long registrationId, long userId, String street, String houseNumber, String apartment, String scopeOfWork,
-                 Timestamp desirableTime, Timestamp openingDate, Timestamp closingDate, OrderStatus orderStatus, String additionalInformation,
-                 String pictureAddress, boolean isPrivate, int mark) {
+                 Timestamp desirableTime, Timestamp openingDate, Timestamp closingDate, OrderStatus orderStatus,
+                 String pictureAddress) {
         this.registrationId = registrationId;
         this.userId = userId;
         this.street = street;
@@ -39,19 +36,12 @@ public class Order implements Serializable, Comparable<Order> {
         this.openingDate = openingDate;
         this.closingDate = closingDate;
         this.orderStatus = orderStatus;
-        this.additionalInformation = additionalInformation;
         this.pictureAddress = pictureAddress;
-        this.isPrivate = isPrivate;
-        this.mark = mark;
     }
 
     public Timestamp getOpeningDate() {return openingDate;}
 
-    public void setOpeningDate(Timestamp openingDate) {this.openingDate = openingDate;}
-
     public Timestamp getClosingDate() {return closingDate;}
-
-    public void setClosingDate(Timestamp closingDate) {this.closingDate = closingDate;}
 
     public long getRegistrationId() {return registrationId;}
 
@@ -91,10 +81,6 @@ public class Order implements Serializable, Comparable<Order> {
         return desirableTime;
     }
 
-    public void setDesirableTime(Timestamp desirableTime) {
-        this.desirableTime = desirableTime;
-    }
-
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
@@ -103,17 +89,10 @@ public class Order implements Serializable, Comparable<Order> {
         this.orderStatus = orderStatus;
     }
 
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
-
     public String getApartment() {return apartment;}
 
     public void setApartment(String apartment) {this.apartment = apartment;}
+
     public String getPictureAddress() {
         return pictureAddress;
     }
@@ -122,21 +101,6 @@ public class Order implements Serializable, Comparable<Order> {
         this.pictureAddress = pictureAddress;
     }
 
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-    public int getMark() {
-        return mark;
-    }
-
-    public void setMark(int mark) {
-        this.mark = mark;
-    }
 
     @Override
     public String toString() {
@@ -149,36 +113,31 @@ public class Order implements Serializable, Comparable<Order> {
         builder.append(" scopeOfWork = ").append(scopeOfWork);
         builder.append(" desirableTime = ").append(desirableTime);
         builder.append(" orderStatus = ").append(orderStatus);
-        builder.append(" additionalInformation = ").append(additionalInformation);
         builder.append(" pictureAddress = ").append(pictureAddress);
-        builder.append(" isPrivate = ").append(isPrivate);
-        builder.append(" mark = ").append(mark);
         return builder.toString();
     }
 
+    @Override
+    public int compareTo(Order o) {
+        return Long.compare(registrationId, o.registrationId);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return getRegistrationId() == order.getRegistrationId() && getUserId() == order.getUserId()
-                && getOrderStatus() == order.getOrderStatus() && isPrivate() == order.isPrivate() &&
-                getMark() == order.getMark() && getStreet().equals(order.getStreet()) &&
-                getHouseNumber().equals(order.getHouseNumber()) && getScopeOfWork().equals(order.getScopeOfWork())
-                && getDesirableTime().equals(order.getDesirableTime()) && openingDate.equals(order.openingDate) &&
-                closingDate.equals(order.closingDate) && getAdditionalInformation().equals(order.getAdditionalInformation()) &&
-                getPictureAddress().equals(order.getPictureAddress());
+        return getRegistrationId() == order.getRegistrationId() &&
+                getUserId() == order.getUserId() &&
+                 Objects.equals(getStreet(), order.getStreet()) &&
+                Objects.equals(getHouseNumber(), order.getHouseNumber()) && Objects.equals(getApartment(),
+                order.getApartment()) && getScopeOfWork().equals(order.getScopeOfWork()) && Objects.equals(getDesirableTime(),
+                order.getDesirableTime()) && Objects.equals(getOpeningDate(), order.getOpeningDate()) && Objects.equals(getClosingDate(),
+                order.getClosingDate()) && getOrderStatus() == order.getOrderStatus()  && Objects.equals(getPictureAddress(), order.getPictureAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRegistrationId(), getUserId(), getStreet(), getHouseNumber(), getScopeOfWork(),
-                getDesirableTime(), openingDate, closingDate, getOrderStatus(), getAdditionalInformation(), getPictureAddress(), isPrivate(), getMark());
-    }
-
-    @Override
-    public int compareTo(Order o) {
-        return Long.compare(registrationId, o.registrationId);
+        return Objects.hash(getRegistrationId(), getUserId(), getStreet(), getHouseNumber(), getApartment(), getScopeOfWork(), getDesirableTime(), getOpeningDate(), getClosingDate(), getOrderStatus(), getPictureAddress());
     }
 }

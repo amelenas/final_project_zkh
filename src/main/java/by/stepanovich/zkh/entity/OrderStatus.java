@@ -4,7 +4,8 @@ public enum OrderStatus {
     IN_PROCESSING(1),
     COMPLETED(2),
     AT_WORK(3),
-    CANCELLED(4);
+    CANCELLED(4),
+    CLOSED_BY_EMPLOYEE(5);
 
     private final int orderStatus;
 
@@ -18,6 +19,6 @@ public enum OrderStatus {
                 return value;
             }
         }
-        return AT_WORK;
+        return IN_PROCESSING;
     }
 }

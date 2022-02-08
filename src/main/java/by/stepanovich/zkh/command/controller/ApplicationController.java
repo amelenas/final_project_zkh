@@ -28,14 +28,9 @@ public class ApplicationController extends HttpServlet {
     }
 
     private void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
         String commandName = request.getParameter(COMMAND_PARAMETER_NAME);
-
-        System.out.println(commandName);/////////////////////////////////////////////////////
-
         Command command = Command.of(commandName);
         ResponseContext responseContext = command.execute(request);
-
         if (responseContext.getResponseContextType().equals(ResponseContext.ResponseContextType.REDIRECT)) {
             response.sendRedirect(request.getContextPath() + responseContext.getPagePath());
         } else {

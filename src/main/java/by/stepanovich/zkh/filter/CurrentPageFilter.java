@@ -1,23 +1,20 @@
 package by.stepanovich.zkh.filter;
-
-
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/*"})
 public class CurrentPageFilter implements Filter {
-    public static final String CURRENT_PAGE = "current_page";
-    public static final String CONTAINS_JSP = "jsp/";
-    public static final String CONTAINS_CONTROLLER = "controller";
-    public static final String CONTAINS_CHANGE_LOCALE = "command=change_locale";
+    private static final String CURRENT_PAGE = "current_page";
+    private static final String CONTAINS_JSP = "jsp/";
+    private static final String CONTAINS_CONTROLLER = "controller";
+    private static final String CONTAINS_CHANGE_LOCALE = "command=change_locale";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         String currentPage = httpRequest.getRequestURL().toString();
+
         if (currentPage.contains(CONTAINS_JSP)) {
             int index = currentPage.indexOf(CONTAINS_JSP);
             currentPage = currentPage.substring(index);

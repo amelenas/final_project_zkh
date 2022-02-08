@@ -17,16 +17,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css">
-
-    <title>${login}</title>
-    <script type="text/javascript">
-        window.history.forward();
-
-        function noBack() {
-            window.history.forward();
-        }
-    </script>
-
     <title>${login}</title>
 
 </head>
@@ -34,7 +24,8 @@
 <header>
     <jsp:include page="header.jsp"/>
 </header>
-<p style="color: red;">${failedRegisterMessage}</p><strong>${errorLoginMessage}</strong>
+<p style="color: red;">${errorMessage}</p>
+<p style="color: #1f3d2e;">${sessionScope.loginMessageRegistered}</p>
 <br/>
 <div class="container" style="height: inherit">
     <div class="row">
@@ -46,7 +37,7 @@
                 <input type="email" name="email" class="form-control" id="validationCustom01" size="50"
                        required
                        pattern="^(?=.{1,45}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$"
-                       value="${requestScope.formData['email']}">
+                       value="${requestScope.email}">
                 <div class="invalid-feedback">
                     ${invalidLogin}
                 </div>
@@ -54,26 +45,25 @@
             <div class="col-md-6 mb-3">
                 <label for="validationCustom02" class="form-label">${password}</label>
                 <input type="password" name="password" class="form-control" id="validationCustom02" size="50"
-                       required pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,20}"
-                       value="${requestScope.formData['password']}">
+                       required pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,20}">
                 <div class="invalid-feedback">
                     ${invalidPassword}
                 </div>
             </div>
             <div class="row">
-            <c:if test="${requestScope.loginMessage != null}">
-            <div class="form-group">
-                <div class="err-message-from-server">
-                    <fmt:setBundle basename="locale" var="rb"/>
-                    <fmt:message key="${requestScope.loginMessage}" bundle="${rb}"/>
-                </div>
+                <c:if test="${requestScope.loginMessage != null}">
+                    <div class="form-group">
+                        <div class="err-message-from-server">
+                            <fmt:setBundle basename="locale" var="rb"/>
+                            <fmt:message key="${requestScope.loginMessage}" bundle="${rb}"/>
+                        </div>
+                    </div>
+                </c:if>
             </div>
-            </c:if>
-    </div>
             <div class="col-12">
                 <button class="btn btn-primary mt-4" type="submit">${login}</button>
             </div>
-        <br/>
+            <br/>
             <div class="col-12">
                 <a href="${pageContext.request.contextPath}/controller?command=show_main_page">${cancel}</a>
             </div>
@@ -82,8 +72,4 @@
     </div>
 </div>
 </body>
-<div id="footer">
-
-    <jsp:include page="footer.jsp"/>
-</div>
 </html>

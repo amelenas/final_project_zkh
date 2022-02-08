@@ -2,7 +2,8 @@ package by.stepanovich.zkh.service.impl;
 
 import by.stepanovich.zkh.dao.UserDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
-import by.stepanovich.zkh.dao.impl.UserDaoImpl;
+import by.stepanovich.zkh.dao.factory.DaoFactory;
+import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.exception.ServiceException;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 public class UserServiceImpl implements UserService {
     private final FormValidator validator = FormValidator.getInstance();
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao = DaoFactory.getInstance().getUserDao();
 
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -79,12 +80,10 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException("New Password or Old Password format is invalid");
         }
         try {
-            System.out.println(userDao.findById(Long.parseLong(id)));
             Optional<User> optionalUser = userDao.findById(Long.parseLong(id));
             if (optionalUser.isPresent()) {
                 user = optionalUser.get();
                 if(user.getPassword().equals(new HashPassword().hashPassword(oldPassword))){
-                    System.out.println(user.getPassword().equals(new HashPassword().hashPassword(oldPassword)));
                     result = userDao.changePassword(new HashPassword().hashPassword(newPassword), Long.parseLong(id));
                 }
             }
@@ -99,6 +98,15 @@ public class UserServiceImpl implements UserService {
     public Set<User> findAllUsers() throws ServiceException {
         try {
             return userDao.findAllUsers();
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in findAllUsers method", e);
+        }
+    }
+
+    @Override
+    public Set<User> findAllUsers(int page) throws ServiceException {
+        try {
+            return userDao.findAllUsers(page);
         } catch (DaoException e) {
             throw new ServiceException("Exception in findAllUsers method", e);
         }
@@ -124,6 +132,15 @@ public class UserServiceImpl implements UserService {
         }
         try {
             return userDao.updateUserData(id, firstName, lastName, email, phone);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception in updateUserData method");
+        }
+    }
+
+    @Override
+    public boolean changeRole(String email, Role role) throws ServiceException {
+        try {
+            return userDao.changeRole(email, role);
         } catch (DaoException e) {
             throw new ServiceException("Exception in updateUserData method");
         }

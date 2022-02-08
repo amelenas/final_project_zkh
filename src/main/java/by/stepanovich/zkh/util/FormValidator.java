@@ -3,8 +3,6 @@ package by.stepanovich.zkh.util;
 
 public class FormValidator {
 
-    private static final String CHECK_LOGIN_REGEX = "[A-Za-z0-9]{3,20}";
-
     private static final String CHECK_PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}";
 
     private static final String CHECK_FIRST_AND_LAST_NAME = "^[A-ZА-Я]{1}[a-zа-я]{2,20}$";
@@ -23,11 +21,6 @@ public class FormValidator {
 
     public static FormValidator getInstance() {
         return FormValidator.FormValidatorHolder.HOLDER_INSTANCE;
-    }
-
-
-    public boolean checkLogin(String login) {
-        return login != null && login.matches(CHECK_LOGIN_REGEX);
     }
 
     public boolean checkPassword(String password) {

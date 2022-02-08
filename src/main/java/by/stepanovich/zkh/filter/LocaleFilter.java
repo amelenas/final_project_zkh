@@ -1,14 +1,11 @@
 package by.stepanovich.zkh.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-
-@WebFilter(urlPatterns = {"/jsp/*"})
 public class LocaleFilter implements Filter {
-    public static final String LOCALE = "locale";
+    private static final String LOCALE = "locale";
     private static final String EN = "en";
 
     @Override
@@ -26,7 +23,6 @@ public class LocaleFilter implements Filter {
         }
         filterChain.doFilter(httpRequest, servletResponse);
     }
-
     @Override
     public void destroy() {
         Filter.super.destroy();

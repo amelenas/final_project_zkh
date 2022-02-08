@@ -6,7 +6,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="report.allOrders.title" var="assignPerformer"/>
+<fmt:message key="report.allOrders.title" var="thanks"/>
 <fmt:message key="common.backHome" var="toHomePage"/>
 <fmt:message key="admin.profile.page" var="managerPage"/>
 <fmt:message key="admin.report.all.page" var="titleReport"/>
@@ -21,7 +21,7 @@
 
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet">
 
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 </head>
 <body>
 <header>

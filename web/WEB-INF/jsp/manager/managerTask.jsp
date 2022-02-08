@@ -11,8 +11,11 @@
 <fmt:message key="admin.updatePassword" var="updatePassword"/>
 <fmt:message key="admin.allUsers" var="showAllUsers"/>
 <fmt:message key="admin.allOrders" var="showAllOrders"/>
-<fmt:message key="admin.addAdmin" var="addAdmin"/>
-<fmt:message key="assign.performer" var="assignPerformer"/>
+<fmt:message key="change.user.role" var="addAdmin"/>
+<fmt:message key="assign.performer" var="assign"/>
+<fmt:message key="check.closed.applications" var="checkClosedApplications"/>
+<fmt:message key="admin.accept.employee" var="acceptEmployee"/>
+<fmt:message key="orders.at.work" var="showOrdersAtWork"/>
 
 <!doctype html>
 <html lang="en">
@@ -40,7 +43,7 @@
     <div class="row">
         <dd class="col-sm-9">
             <dl class="row">
-                <dt class="col-sm-4">&#9679; <a href="${pageContext.request.contextPath}/jsp/admin/add-admin.jsp"
+                <dt class="col-sm-4">&#9679; <a href="${pageContext.request.contextPath}/controller?command=show_add_admin_page"
                                                 style="color: midnightblue; font-size: 18px">${addAdmin}</a></dt>
             </dl>
         </dd>
@@ -59,7 +62,22 @@
             <dl class="row">
                 <dt class="col-sm-4">&#9679; <a
                         href="${pageContext.request.contextPath}/controller?command=assign_performer_page"
-                        style="color: midnightblue; font-size: 18px">${assignPerformer}</a></dt>
+                        style="color: midnightblue; font-size: 18px">${assign}</a></dt>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-4">&#9679; <a
+                        href="${pageContext.request.contextPath}/controller?command=show_orders_at_work"
+                        style="color: midnightblue; font-size: 18px">${showOrdersAtWork}</a></dt>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-4">&#9679; <a
+                        href="${pageContext.request.contextPath}/controller?command=accept_employee_page"
+                        style="color: midnightblue; font-size: 18px">${acceptEmployee}</a></dt>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-4">&#9679; <a
+                        href="${pageContext.request.contextPath}/controller?command=check_closed_applications"
+                        style="color: midnightblue; font-size: 18px">${checkClosedApplications}</a></dt>
             </dl>
         </dd>
     </div>

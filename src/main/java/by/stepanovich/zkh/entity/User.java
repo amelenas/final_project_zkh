@@ -133,7 +133,6 @@ public class User implements Serializable, Comparable<User> {
                 getUserSurname(), getPhone(), getUserStatus(), getRole());
     }
 
-
     @Override
     public int compareTo(User o) {
         return Long.compare(userId, o.userId);

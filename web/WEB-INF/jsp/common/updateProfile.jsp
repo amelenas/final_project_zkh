@@ -1,11 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="update.profile.page" var="assignPerformer"/>
+<fmt:message key="update.profile.page" var="thanks"/>
 <fmt:message key="common.page.firstName" var="name"/>
 <fmt:message key="common.page.lastName" var="surname"/>
 <fmt:message key="name.helper" var="nameHelper"/>
@@ -15,7 +15,6 @@
 <fmt:message key="update.profile.button" var="button"/>
 <fmt:message key="common.page.phone" var="phone"/>
 <fmt:message key="lastName.helper" var="lastNameHelper"/>
-
 
 <!doctype html>
 <html lang="en">
@@ -35,7 +34,7 @@
         }
     </script>
 
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <header>
@@ -49,28 +48,28 @@
             <div class="form-group">
                 <label for="exampleInputPassword0">${name}</label>
                 <input type="text" class="form-control" id="exampleInputPassword0" aria-describedby="emailHelp"
-                       name="userName" value="${requestScope.formData['userName']}"
+                       name="userName" value="${sessionScope.name}"
                        required pattern="^[A-ZА-Я]{1}[a-zа-я]{2,20}$">
                 <small id="emailHelp1" style="color: black" class="form-text text-muted">${nameHelper}</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">${surname}</label>
                 <input type="text" class="form-control" id="exampleInputPassword1"
-                       name="userSurname" value="${requestScope.formData['userSurname']}"
+                       name="userSurname" value="${sessionScope.userSurname}"
                        required pattern="^[A-ZА-Я]{1}[a-zа-я]{2,20}$">
                 <small id="emailHelp2" style="color: black" class="form-text text-muted">${lastNameHelper}</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword2">${phone}</label>
                 <input type="text" class="form-control" id="exampleInputPassword2"
-                       name="phone" value="${requestScope.formData['phone']}"
+                       name="phone" value="${sessionScope.phone}"
                        required pattern="(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?">
                 <small id="emailHelp3" style="color: black" class="form-text text-muted">${phoneHelper}</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail3">${email}</label>
                 <input type="text" class="form-control" id="exampleInputEmail3"
-                       name="email" value="${requestScope.formData['email']}"
+                       name="email" value="${sessionScope.email}"
                        required pattern="^(?=.{1,45}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$">
             </div>
             <c:if test="${requestScope.message != null}">

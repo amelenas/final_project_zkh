@@ -7,9 +7,8 @@ import by.stepanovich.zkh.command.ResponseContext;
 import javax.servlet.http.HttpServletRequest;
 
 public class ShowPasswordPageCommand implements Command {
-
     @Override
     public ResponseContext execute(HttpServletRequest request) {
-        return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PASSWORD_PAGE, ResponseContext.ResponseContextType.FORWARD);
+        return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

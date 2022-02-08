@@ -12,19 +12,22 @@ import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.WorkService;
 import by.stepanovich.zkh.service.exception.ServiceException;
 import by.stepanovich.zkh.service.factory.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 public class AssignPerformerCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(AssignPerformerCommand.class);
+
     private OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private UserService userService = ServiceFactory.getInstance().getUserService();
     private WorkService workService = ServiceFactory.getInstance().getWorkService();
 
-    public static final String USER_ID = "userId";
-    public static final String REGISTRATION_ID = "registrationId";
-    public static final String ORDER = "order";
+    private static final String USER_ID = "userId";
+    private static final String REGISTRATION_ID = "registrationId";
     private static final String NAME = "name";
     private static final String SURNAME = "userSurname";
     private static final String EMAIL = "email";
@@ -32,7 +35,7 @@ public class AssignPerformerCommand implements Command {
     private static final String ORDER_DATA = "orderData";
     private static final String SITES_OF_WORK = "sitesOfWork";
     private static final String TYPES_OF_WORKS = "typesOfWorks";
-    public static final String EXCEPTION = "exception";
+    private static final String EXCEPTION = "exception";
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {
@@ -47,7 +50,6 @@ public class AssignPerformerCommand implements Command {
             orderOptional = orderService.findById(orderId);
             userOptional = userService.findById(orderOptional.get().getUserId());
 
-            request.setAttribute(ORDER, orderOptional.get());
             request.setAttribute(USER_ID, userOptional.get().getUserId());
             request.setAttribute(NAME, userOptional.get().getUserName());
             request.setAttribute(SURNAME, userOptional.get().getUserSurname());
@@ -56,7 +58,10 @@ public class AssignPerformerCommand implements Command {
             request.setAttribute(ORDER_DATA, orderOptional.get());
             request.setAttribute(SITES_OF_WORK, sitesOfWork);
             request.setAttribute(TYPES_OF_WORKS, typesOfWorks);
+            request.setAttribute(REGISTRATION_ID, orderId);
+
         } catch (ServiceException e) {
+            LOGGER.error("Exception when assign performer", e);
             request.setAttribute(EXCEPTION, e);
             return new ResponseContext(PathOfJsp.ERROR_500_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }

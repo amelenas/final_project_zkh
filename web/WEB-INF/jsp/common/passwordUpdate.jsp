@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="updatePassword.page" var="assignPerformer"/>
+<fmt:message key="updatePassword.page" var="thanks"/>
 <fmt:message key="button.update" var="update"/>
 <fmt:message key="enter.current" var="current"/>
 <fmt:message key="enter.new.password" var="newPassword"/>
@@ -29,10 +29,12 @@
             window.history.forward();
         }
     </script>
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
-<header> <jsp:include page="header.jsp"/></header>
+<header>
+    <jsp:include page="header.jsp"/>
+</header>
 <br/>
 <div align="center">${resultInfo}</div>
 <div class="container" style="height: 66vh">
@@ -42,18 +44,21 @@
             <div class="form-group">
                 <label for="exampleInputPassword3">${current}</label>
                 <input type="password" class="form-control" id="exampleInputPassword3" aria-describedby="emailHelp"
-                       name="oldPassword" value="${requestScope.oldPassword}" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
+                       name="oldPassword" required
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">${newPassword}</label>
                 <input type="password" class="form-control" id="exampleInputPassword1"
-                name="newPassword" value="${requestScope.newPassword}" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
+                       name="newPassword"  required
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
                 <small id="emailHelp" class="form-text text-muted">${helper}</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword2">${repeat}</label>
                 <input type="password" class="form-control" id="exampleInputPassword2"
-                       name="repeatPassword" value="${requestScope.repeatPassword}" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
+                       name="repeatPassword" required
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}">
             </div>
 
             <button type="submit" class="btn btn-primary"
@@ -61,8 +66,8 @@
         </form>
     </div>
 </div>
-
-
-<footer><jsp:include page="footer.jsp"/></footer>
+<footer>
+    <jsp:include page="footer.jsp"/>
+</footer>
 </body>
 </html>

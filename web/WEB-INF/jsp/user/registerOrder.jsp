@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="assignPerformer"/>
+<fmt:message key="order.page.title" var="thanks"/>
 <fmt:message key="order.page.uploadButton" var="upload"/>
 <fmt:message key="common.page.street" var="steet"/>
 <fmt:message key="common.page.house.number" var="houseNumber"/>
@@ -32,9 +32,10 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
+
 <div class="container" style="height: 80vh">
     ${picture}
         <p style="color: red;"> ${requestScope.photo_message}
@@ -49,20 +50,20 @@
 
         ${steet}
         <td><label>
-            <input type="text" name="street" value="${requestScope.formData['street']}"/>
+            <input type="text" name="street" value="${requestScope.street}"/>
         </label></td>
 
         <br/>
         <tr>
             <td>${houseNumber}</td>
             <td><label>
-                <input type="text" name="houseNumber" value="${requestScope.formData['houseNumber']}"/>
+                <input type="text" name="houseNumber" value="${requestScope.houseNumber}"/>
             </label></td>
         </tr>
         <tr>
             <td>${apartment}</td>
             <td><label>
-                <input type="text" name="apartment" value="${requestScope.formData['apartment']}"/>
+                <input type="text" name="apartment" value="${requestScope.apartment}"/>
             </label></td>
         </tr>
         <br/>
@@ -83,7 +84,7 @@
             <td><label>
                 <input type="datetime-local"
                        min="<fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd'T'HH:mm"/>"
-                       name="desirableTimeOfWork" value="${requestScope.formData['desirableTimeOfWork']}"/>
+                       name="desirableTimeOfWork" value="${requestScope.desirableTimeOfWork}"/>
             </label></td>
         </tr>
         <br/>

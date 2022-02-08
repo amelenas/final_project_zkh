@@ -10,11 +10,12 @@
 <fmt:message key="common.page.lastName" var="userSurname"/>
 <fmt:message key="common.page.email" var="userEmail"/>
 <fmt:message key="navigation.profile" var="profile"/>
-
 <fmt:message key="admin.updateProfile" var="updateProfile"/>
 <fmt:message key="admin.updatePassword" var="updatePassword"/>
 <fmt:message key="admin.allOrders" var="allOrders"/>
 <fmt:message key="admin.allOrders" var="allOrders"/>
+<fmt:message key="register.as.employee" var="employeeRegister"/>
+<fmt:message key="common.page.phone" var="userPhone"/>
 
 <!doctype html>
 <html lang="en">
@@ -64,6 +65,9 @@
 
         <dt class="col-sm-3">${userEmail}</dt>
         <dd class="col-sm-9">${sessionScope.email}</dd>
+
+        <dt class="col-sm-3">${userPhone}</dt>
+        <dd class="col-sm-9">${sessionScope.phone}</dd>
     </dl>
 </div>
 <hr/>
@@ -83,6 +87,9 @@
                 <button class="btn"><a href="${pageContext.request.contextPath}/controller?command=show_all_user_orders"
                                        style="color: midnightblue; font-size: 18px">${allOrders}</a>
                 </button>
+                <button class="btn">
+                    <a href="${pageContext.request.contextPath}/controller?command=register_employee_page">${employeeRegister}</a>
+                </button>
             </c:when>
         </c:choose>
     </div>
@@ -90,7 +97,7 @@
 
 </div>
 </body>
-<footer>
-    <jsp:include page="../common/footer.jsp"/>
-</footer>
+<div id="footer">
+    <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+</div>
 </html>

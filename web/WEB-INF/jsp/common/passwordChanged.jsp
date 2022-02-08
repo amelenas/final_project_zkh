@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="admin.updatePassword" var="assignPerformer"/>
+<fmt:message key="admin.updatePassword" var="thanks"/>
 <fmt:message key="password.updated" var="message"/>
 <fmt:message key="common.backHome" var="toHomePage"/>
 
@@ -26,7 +26,7 @@
       window.history.forward();
     }
   </script>
-  <title>${assignPerformer}</title>
+  <title>${thanks}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <header><jsp:include page="header.jsp"/></header>

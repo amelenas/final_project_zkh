@@ -41,13 +41,6 @@ public final class ConnectionPool implements ConnectionBuilder {
         } catch (NumberFormatException e) {
             poolSize = 5;
         }
-
-// убрать
-        try {
-            initPoolData();
-        } catch (ConnectionPoolException e) {
-            e.printStackTrace();
-        }
     }
 
     public void initPoolData() throws ConnectionPoolException {

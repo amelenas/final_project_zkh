@@ -15,16 +15,27 @@ The contractor can view the applications assigned to him or take them himself.
 - Log out
 - Change password
 - Update profile
+- View his orders
+- Cancel order
+- Register as employee
 ### Admin
+- Edit personal information
 - Log out
 - Change password
 - Update profile
-- 
+- Assign a performer
+- Build a report "all users"
+- Build a report "all orders"
+- Check the applications of specialists for work and approve it or reject
+- Check closed applications
+- Change user role
 ### Employee
+- Edit personal information
 - Log out
 - Change password
 - Update profile
-- 
+- Take an order
+- Close or cancel order
 ## DataBase Scheme
-![img.png](img.png)
-- [script.sql](https://github.com/)
+![img_2.png](img_2.png)
+- [script.sql](https://github.com/amelenas/final_project_zkh/tree/master/database)

@@ -14,14 +14,13 @@ import javax.servlet.http.HttpSession;
 
 public class ChangePasswordCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ChangePasswordCommand.class);
-    public static final String OLD_PASSWORD = "oldPassword";
-    public static final String NEW_PASSWORD = "newPassword";
-    public static final String REPEAT_PASSWORD = "repeatPassword";
-    public static final String RESULT_INFO = "resultInfo";
-    public static final String PASSWORD_NOT_EQUAL = "Passwords not equal";
-    public static final String CURRENT_PAGE = "current_page";
-
-    public static final String EXCEPTION = "exception";
+    private static final String OLD_PASSWORD = "oldPassword";
+    private static final String NEW_PASSWORD = "newPassword";
+    private static final String REPEAT_PASSWORD = "repeatPassword";
+    private static final String RESULT_INFO = "resultInfo";
+    private static final String PASSWORD_NOT_EQUAL = "Passwords not equal";
+    private static final String CURRENT_PAGE = "current_page";
+    private static final String EXCEPTION = "exception";
     private static final String USER_ID = "id";
     private UserService userService = ServiceFactory.getInstance().getUserService();
 
@@ -35,12 +34,12 @@ public class ChangePasswordCommand implements Command {
 
         if (!newPassword.equals(repeatPassword)) {
             request.setAttribute(RESULT_INFO, PASSWORD_NOT_EQUAL);
-            return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PASSWORD_PAGE, ResponseContext.ResponseContextType.FORWARD);
+            return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }
         try {
             if (userService.changePassword(oldPassword, newPassword, String.valueOf(session.getAttribute(USER_ID)))) {
-                session.setAttribute(CURRENT_PAGE, PathOfJsp.PASSWORD_CHANGED);
-                return new ResponseContext(PathOfJsp.PASSWORD_CHANGED, ResponseContext.ResponseContextType.FORWARD);
+                session.setAttribute(CURRENT_PAGE, PathOfJsp.COMMAND_PASSWORD_CHANGED);
+                return new ResponseContext(PathOfJsp.COMMAND_PASSWORD_CHANGED, ResponseContext.ResponseContextType.REDIRECT);
             } else {
                 request.setAttribute(RESULT_INFO, PASSWORD_NOT_EQUAL);
             }
@@ -49,6 +48,6 @@ public class ChangePasswordCommand implements Command {
             request.setAttribute(EXCEPTION, e);
             return new ResponseContext(PathOfJsp.ERROR_500_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }
-        return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PASSWORD_PAGE, ResponseContext.ResponseContextType.FORWARD);
+        return new ResponseContext(PathOfJsp.PASSWORD_CHANGE_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

@@ -1,7 +1,5 @@
 package by.stepanovich.zkh.connection;
 
-import java.util.ResourceBundle;
-
 public class DBParameter {
     private DBParameter(){}
 

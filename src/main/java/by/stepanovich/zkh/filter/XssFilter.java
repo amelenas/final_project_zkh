@@ -1,11 +1,9 @@
 package by.stepanovich.zkh.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/*"})
 public class XssFilter implements Filter {
 
     @Override

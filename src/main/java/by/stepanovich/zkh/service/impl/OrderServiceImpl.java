@@ -2,15 +2,17 @@ package by.stepanovich.zkh.service.impl;
 
 import by.stepanovich.zkh.dao.OrderDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
+import by.stepanovich.zkh.dao.factory.DaoFactory;
 import by.stepanovich.zkh.dao.impl.OrderDaoImpl;
 import by.stepanovich.zkh.entity.Order;
+import by.stepanovich.zkh.entity.OrderStatus;
 import by.stepanovich.zkh.service.OrderService;
 import by.stepanovich.zkh.service.exception.ServiceException;
 
 import java.util.*;
 
 public class OrderServiceImpl implements OrderService {
-    private OrderDao orderDao = new OrderDaoImpl();
+    private OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
 
     public OrderServiceImpl() {
     }
@@ -22,7 +24,7 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> registerOrder(Integer userId, String street, String houseNumber, String apartment,
                                          String scopeOfWork, String desirableTimeOfWork, String photo) throws ServiceException {
         Optional<Order> order;
-        if (scopeOfWork == null) {
+        if (scopeOfWork == null || scopeOfWork.equals("")) {
             throw new ServiceException("The order text is empty");
         }
         try {
@@ -45,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllUsersOrderById(long userId) throws ServiceException {
+    public List<Order> findAllUserOrderById(long userId) throws ServiceException {
         List<Order> orders;
         try {
             orders = orderDao.findAllUsersOrderById(userId);
@@ -56,10 +58,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAllNewOrders() throws ServiceException {
+    public List<Order> findOrdersByStatus(OrderStatus orderStatus) throws ServiceException {
         List<Order> result;
         try {
-            result = orderDao.findAllNewOrders();
+            result = orderDao.findOrdersByStatus(orderStatus);
         } catch (DaoException e) {
             throw new ServiceException("Exception while searching all new orders ", e);
         }
@@ -67,9 +69,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean cancelSingleOrder(long orderId) throws ServiceException {
+    public List<Order> findOrdersByStatus(OrderStatus orderStatus, int page) throws ServiceException {
+        List<Order> result;
         try {
-            return orderDao.cancelSingleOrder(orderId);
+            result = orderDao.findOrdersByStatus(orderStatus, page);
+        } catch (DaoException e) {
+            throw new ServiceException("Exception while searching all new orders ", e);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean updateOrderStatus(long orderId, OrderStatus orderStatus) throws ServiceException {
+        try {
+            return orderDao.updateOrderStatus(orderId, orderStatus);
         } catch (DaoException e) {
             throw new ServiceException("Exception when canceling one order by order ID " + orderId, e);
         }

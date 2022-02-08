@@ -1,8 +1,7 @@
 package by.stepanovich.zkh.dao;
-
-
 import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.Order;
+import by.stepanovich.zkh.entity.OrderStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -17,13 +16,16 @@ public interface OrderDao {
 
     List<Order> findAllUsersOrderById(long userId) throws DaoException;
 
-    boolean cancelSingleOrder(long userId) throws DaoException;
+    boolean updateOrderStatus(long orderId, OrderStatus orderStatus) throws DaoException;
 
     Map<String, String> extractPhotos() throws DaoException;
 
     Set<Order> findAllOrder() throws DaoException;
 
-    List<Order> findAllNewOrders() throws DaoException;
+    List<Order> findOrdersByStatus(OrderStatus orderStatus) throws DaoException;
+
+    List<Order> findOrdersByStatus(OrderStatus orderStatus, int page) throws DaoException;
 
     Optional<Order>findById(long orderID) throws DaoException;
+
 }

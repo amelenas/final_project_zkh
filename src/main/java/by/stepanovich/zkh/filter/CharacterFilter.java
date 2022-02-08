@@ -1,33 +1,22 @@
 package by.stepanovich.zkh.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "CharacterFilter", urlPatterns = {"/*"},
-        initParams = {@WebInitParam(name = "encoding", value = "UTF-8", description = "encoding parameters")})
 public class CharacterFilter implements Filter {
-    private String code;
+    private final static String ENCODING_UTF_8 = "UTF-8";
 
     @Override
-    public void init(FilterConfig config) throws ServletException {
-        code = config.getInitParameter("encoding");
-    }
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        String codeRequest = request.getCharacterEncoding();
-        if (code != null && !code.equalsIgnoreCase(codeRequest)) {
-            request.setCharacterEncoding(code);
-            response.setCharacterEncoding(code);
-        }
-        chain.doFilter(request, response);
-    }
+        request.setCharacterEncoding(ENCODING_UTF_8);
+        response.setCharacterEncoding(ENCODING_UTF_8);
 
-    @Override
-    public void destroy() {
-        code = null;
+        filterChain.doFilter(request, response);
     }
 }
+

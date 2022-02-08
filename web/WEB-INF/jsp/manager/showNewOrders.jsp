@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="assignPerformer"/>
+<fmt:message key="admin.allOrders" var="title"/>
 <fmt:message key="order.page.emptyList" var="emptyList"/>
 <fmt:message key="order.registrationNumberId" var="registrationId"/>
 <fmt:message key="order.user.id" var="userId"/>
@@ -18,6 +18,7 @@
 <fmt:message key="common.page.house.work.closingDate" var="closingDate"/>
 <fmt:message key="common.page.house.work.orderStatus" var="orderStatus"/>
 <fmt:message key="assign.performer" var="assignPerformer"/>
+<fmt:message key="pick.up.order" var="pickUpOrder"/>
 <!doctype html>
 <html lang="en">
 <head>
@@ -38,7 +39,7 @@
         }
     </script>
 
-    <title>${assignPerformer}</title>
+    <title>${title}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
@@ -70,34 +71,76 @@
                     </thead>
 
                     <tbody>
-                    <c:forEach var="element" items="${requestScope.orderData}">
+                    <c:forEach var="key" items="${requestScope.orderData}">
                         <tr>
 
-                            <td>${element.registrationId}</td>
-                            <td>${element.userId}</td>
-                            <td>${element.street}</td>
-                            <td>${element.houseNumber}</td>
-                            <td>${element.apartment}</td>
-                            <td>${element.scopeOfWork}</td>
-                            <td>${element.desirableTime}</td>
-                            <td>${element.openingDate}</td>
-                            <td>${element.closingDate}</td>
-                            <td>${element.orderStatus}</td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/controller?command=assign_performer&registrationId=${element.registrationId}"
-                                   style="color: darkgreen">
-                                        ${assignPerformer}
-                                </a>
-                            </td>
+                            <td>${key.registrationId}</td>
+                            <td>${key.userId}</td>
+                            <td>${key.street}</td>
+                            <td>${key.houseNumber}</td>
+                            <td>${key.apartment}</td>
+                            <td>${key.scopeOfWork}</td>
+                            <td>${key.desirableTime}</td>
+                            <td>${key.openingDate}</td>
+                            <td>${key.closingDate}</td>
+                            <td>${key.orderStatus}</td>
+                            <c:choose>
+                                <c:when test="${sessionScope.role=='ADMIN'}">
+                                    <td>
+
+                                        <a href="${pageContext.request.contextPath}/controller?command=assign_performer&registrationId=${key.registrationId}"
+                                           style="color: darkgreen" >
+                                                ${assignPerformer}
+                                        </a>
+                                    </td>
+                                </c:when>
+                                <c:when test="${sessionScope.role=='EMPLOYEE'}">
+                                    <td>
+
+                                        <a href="${pageContext.request.contextPath}/controller?command=take_order&registrationId=${key.registrationId}"
+                                           style="color: darkgreen" >
+                                                ${pickUpOrder}
+                                        </a>
+                                    </td>
+                                </c:when>
+                            </c:choose>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
+                <div class="container">
+                    <div class="row" style="justify-content: center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <c:if test="${requestScope.page != 1}">
+                                <a class="page-link"
+                                   href="${pageContext.request.contextPath}/controller?command=assign_performer_page&page=${requestScope.page-1}">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    </c:if>
+                                    <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">
+                                    <c:choose>
+                                    <c:when test="${requestScope.page eq i}">
+                                    <a class="page-link">${i}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/controller?command=assign_performer_page&page=${i}">${i}</a>
+                                    </c:otherwise>
+                                    </c:choose>
+                                    </c:forEach>
+
+                                    <c:if test="${requestScope.phone lt requestScope.noOfPages}">
+                                    <a class="page-link"
+                                       href="${pageContext.request.contextPath}/controller?command=assign_performer_page&page=${requestScope.page+1}">
+                                        <span aria-hidden="true">&raquo;</span>&raquo;</a>
+                                    </c:if>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </c:otherwise>
 </c:choose>
-
-
 </body>
 </html>

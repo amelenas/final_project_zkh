@@ -11,6 +11,8 @@ import by.stepanovich.zkh.service.impl.UserServiceImpl;
 import by.stepanovich.zkh.service.impl.WorkServiceImpl;
 
 public class ServiceFactory {
+    private final static ServiceFactory instance = new ServiceFactory();
+
     private UserService userService = new UserServiceImpl();
     private OrderService orderService = new OrderServiceImpl();
     private WorkService workService = new WorkServiceImpl();
@@ -18,13 +20,7 @@ public class ServiceFactory {
     private ServiceFactory() {
     }
 
-    private static class ServiceFactoryHolder {
-        public static final ServiceFactory HOLDER_INSTANCE = new ServiceFactory();
-    }
-
-    public static ServiceFactory getInstance() {
-        return ServiceFactoryHolder.HOLDER_INSTANCE;
-    }
+    public static ServiceFactory getInstance(){return instance;}
 
     public void setUserService(UserDao userDao) {
         this.userService = new UserServiceImpl(userDao);

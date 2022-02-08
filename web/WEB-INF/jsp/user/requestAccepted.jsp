@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
-<fmt:message key="request.home" var="assignPerformer"/>
+
+<fmt:message key="request.home" var="thanks"/>
 <fmt:message key="request.message" var="message"/>
 <fmt:message key="request.to.home.page" var="homePage"/>
 <!doctype html>
@@ -21,15 +25,18 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${assignPerformer}</title>
+    <title>${thanks}</title>
 
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
-${message}
+<h1>${message}</h1>
 <td colspan="2">
     <a href="${pageContext.request.contextPath}/controller?command=show_main_page">${homePage}</a>
 </td>
-<jsp:include page="../common/footer.jsp"/>
+
 </body>
+<div id="footer">
+    <jsp:include page="/WEB-INF/jsp/common/footer.jsp"/>
+</div>
 </html>
