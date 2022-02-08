@@ -8,7 +8,7 @@ The contractor can view the applications assigned to him or take them himself.
 - View the home page
 - Sign in
 - Sign up
-### USER
+### User
 - Edit personal information
 - Make new order
 - Cancel order

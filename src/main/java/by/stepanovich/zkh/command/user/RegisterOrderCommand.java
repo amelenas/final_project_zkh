@@ -65,7 +65,7 @@ public class RegisterOrderCommand implements Command {
                         item.getFieldName().equalsIgnoreCase(PHOTO)) {
 
                     fileNameForSaving = new StringBuilder(item.getName());
-                    fileNameForSaving.insert(0, currentTime.substring(0, timestamp.indexOf(" ")));
+                    fileNameForSaving.insert(0, currentTime.substring(0, timestamp.indexOf(" "))).insert(0, (int) (Math.random() * 100));
                     item.write(new File(bundle.getString(SAVE_DIRECTORY) + File.separator + fileNameForSaving));
                 }
 

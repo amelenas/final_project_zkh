@@ -1,5 +1,1 @@
-[22-01-15 16:57:33:882] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:findByIdScopeOfWorkDate:56] - java.sql.SQLSyntaxErrorException: Unknown column 'opening_date' in 'where clause'
-[22-01-15 16:58:07:048] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:findByIdScopeOfWorkDate:56] - java.sql.SQLSyntaxErrorException: Unknown column 'id_user' in 'where clause'
-[22-01-15 17:00:27:235] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:findByIdScopeOfWorkDate:56] - java.sql.SQLDataException: Unsupported conversion from TIMESTAMP to java.lang.Integer
-[22-01-15 17:06:53:424] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:findByIdScopeOfWorkDate:56] - java.sql.SQLException: Parameter index out of range (7 > number of parameters, which is 2).
-[22-01-15 17:08:00:529] [main] [ERROR] [stepanovich.zkh.dao.impl.OrderDaoImpl:findByIdScopeOfWorkDate:56] - java.sql.SQLException: Parameter index out of range (5 > number of parameters, which is 2).
+[22-02-08 17:01:40:516] [main] [ERROR] [by.stepanovich.zkh.command.main:main:10] - Проверка еррор
