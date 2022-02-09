@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="request.home" var="thanks"/>
+<fmt:message key="request.home" var="title"/>
 <fmt:message key="request.message" var="message"/>
 <fmt:message key="request.to.home.page" var="homePage"/>
 <!doctype html>
@@ -25,7 +25,7 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${thanks}</title>
+    <title>${title}</title>
 
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">

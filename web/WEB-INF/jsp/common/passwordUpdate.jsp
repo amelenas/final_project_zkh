@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="updatePassword.page" var="thanks"/>
+<fmt:message key="updatePassword.page" var="title"/>
 <fmt:message key="button.update" var="update"/>
 <fmt:message key="enter.current" var="current"/>
 <fmt:message key="enter.new.password" var="newPassword"/>
@@ -29,14 +29,14 @@
             window.history.forward();
         }
     </script>
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <header>
     <jsp:include page="header.jsp"/>
 </header>
 <br/>
-<div align="center">${resultInfo}</div>
+<div align="center">${requestScope.resultInfo}</div>
 <div class="container" style="height: 66vh">
     <div class="row" style="justify-content: center">
         <form style="justify-content: center" action="${pageContext.request.contextPath}/controller" method="post">

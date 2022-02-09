@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="thanks"/>
+<fmt:message key="order.page.title" var="title"/>
 <fmt:message key="order.page.emptyList" var="emptyList"/>
 <fmt:message key="order.registrationNumberId" var="registrationId"/>
 <fmt:message key="common.page.street" var="street"/>
@@ -35,7 +35,7 @@
             window.history.forward();
         }
     </script>
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 

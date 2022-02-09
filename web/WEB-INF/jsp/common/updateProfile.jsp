@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="update.profile.page" var="thanks"/>
+<fmt:message key="update.profile.page" var="title"/>
 <fmt:message key="common.page.firstName" var="name"/>
 <fmt:message key="common.page.lastName" var="surname"/>
 <fmt:message key="name.helper" var="nameHelper"/>
@@ -34,7 +34,7 @@
         }
     </script>
 
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <header>

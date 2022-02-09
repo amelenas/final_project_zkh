@@ -4,7 +4,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="error404.page" var="thanks"/>
+<fmt:message key="error404.page" var="title"/>
 <fmt:message key="error404.message" var="message"/>
 <fmt:message key="common.backHome" var="home"/>
 
@@ -18,7 +18,7 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet">
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body>
 

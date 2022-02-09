@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="error500.page" var="thanks"/>
+<fmt:message key="error500.page" var="title"/>
 <fmt:message key="error500.request" var="request"/>
 <fmt:message key="error500.servlet" var="servlet"/>
 <fmt:message key="error500.statusCode" var="code"/>
@@ -24,7 +24,7 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
     <link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet">
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body>
 <span style="color: black; ">

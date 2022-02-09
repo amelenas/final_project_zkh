@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="locale"/>
 
-<fmt:message key="order.page.title" var="thanks"/>
+<fmt:message key="order.page.title" var="title"/>
 <fmt:message key="order.page.uploadButton" var="upload"/>
 <fmt:message key="common.page.street" var="steet"/>
 <fmt:message key="common.page.house.number" var="houseNumber"/>
@@ -15,6 +15,7 @@
 <fmt:message key="order.page.house.work.picture" var="picture"/>
 <fmt:message key="order.page.house.work.requestNotNull" var="requestNotNull"/>
 <fmt:message key="order.page.house.work.send" var="send"/>
+<fmt:message key="common.page.cancel" var="cancel"/>
 
 <!doctype html>
 <html lang="en">
@@ -32,7 +33,7 @@
         }
     </script>
     <jsp:include page="../common/header.jsp"/>
-    <title>${thanks}</title>
+    <title>${title}</title>
 </head>
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 
@@ -46,24 +47,24 @@
         <input type="file" name="photo" accept="image/*"/>
 
     <br/>
-        <input type="hidden" name="redirectId" value="${param.redirectId}"/>
+        <input type="hidden" name="redirectId"/>
 
         ${steet}
         <td><label>
-            <input type="text" name="street" value="${requestScope.street}"/>
+            <input type="text" name="street"/>
         </label></td>
 
         <br/>
         <tr>
             <td>${houseNumber}</td>
             <td><label>
-                <input type="text" name="houseNumber" value="${requestScope.houseNumber}"/>
+                <input type="text" name="houseNumber"/>
             </label></td>
         </tr>
         <tr>
             <td>${apartment}</td>
             <td><label>
-                <input type="text" name="apartment" value="${requestScope.apartment}"/>
+                <input type="text" name="apartment"/>
             </label></td>
         </tr>
         <br/>
@@ -84,14 +85,14 @@
             <td><label>
                 <input type="datetime-local"
                        min="<fmt:formatDate type="time" value="${now}" pattern="yyyy-MM-dd'T'HH:mm"/>"
-                       name="desirableTimeOfWork" value="${requestScope.desirableTimeOfWork}"/>
+                       name="desirableTimeOfWork"/>
             </label></td>
         </tr>
         <br/>
         <tr>
             <td colspan="2">
                 <button class="btn btn-primary" type="submit">${send}</button>
-                <a href="${pageContext.request.contextPath}/controller?command=show_main_page">Cancel</a>
+                <a href="${pageContext.request.contextPath}/controller?command=show_main_page">${cancel}</a>
             </td>
         </tr>
     </form>
