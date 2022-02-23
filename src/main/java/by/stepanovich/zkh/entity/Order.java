@@ -110,8 +110,11 @@ public class Order implements Serializable, Comparable<Order> {
         builder.append(" userId = ").append(userId);
         builder.append(" street = ").append(street);
         builder.append(" houseNumber = ").append(houseNumber);
+        builder.append(" apartment = ").append(apartment);
         builder.append(" scopeOfWork = ").append(scopeOfWork);
         builder.append(" desirableTime = ").append(desirableTime);
+        builder.append(" openingDate = ").append(openingDate);
+        builder.append(" closingDate = ").append(closingDate);
         builder.append(" orderStatus = ").append(orderStatus);
         builder.append(" pictureAddress = ").append(pictureAddress);
         return builder.toString();

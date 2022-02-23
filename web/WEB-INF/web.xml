@@ -53,12 +53,12 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>RolePermissionPageFilter</filter-name>
-        <filter-class>by.stepanovich.zkh.filter.RolePermissionPageFilter</filter-class>
+        <filter-name>RolePermissionCommandFilter</filter-name>
+        <filter-class>by.stepanovich.zkh.filter.RolePermissionCommandFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>RolePermissionPageFilter</filter-name>
-        <url-pattern>/controller*</url-pattern>
+        <filter-name>RolePermissionCommandFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -78,5 +78,4 @@
           <error-code>404</error-code>
           <location>/WEB-INF/jsp/error/error404.jsp</location>
       </error-page>
-
 </web-app>
