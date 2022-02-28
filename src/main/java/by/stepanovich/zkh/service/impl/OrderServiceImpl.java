@@ -3,16 +3,17 @@ package by.stepanovich.zkh.service.impl;
 import by.stepanovich.zkh.dao.OrderDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.dao.factory.DaoFactory;
-import by.stepanovich.zkh.dao.impl.OrderDaoImpl;
 import by.stepanovich.zkh.entity.Order;
 import by.stepanovich.zkh.entity.OrderStatus;
 import by.stepanovich.zkh.service.OrderService;
 import by.stepanovich.zkh.service.exception.ServiceException;
+import by.stepanovich.zkh.util.FormValidator;
 
 import java.util.*;
 
 public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
+    private final FormValidator validator = FormValidator.getInstance();
 
     public OrderServiceImpl() {
     }
@@ -26,6 +27,10 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> order;
         if (scopeOfWork == null || scopeOfWork.equals("")) {
             throw new ServiceException("The order text is empty");
+        }
+        if(validator.checkXssTag(street) || validator.checkXssTag(houseNumber)
+                || validator.checkXssTag(apartment) || validator.checkXssTag(scopeOfWork) || validator.checkXssTag(photo)){
+            throw new ServiceException("The order contains < or > symbol");
         }
         try {
             order = orderDao.registerOrder(userId, street, houseNumber, apartment, scopeOfWork, desirableTimeOfWork, photo);

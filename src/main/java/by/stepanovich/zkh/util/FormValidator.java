@@ -12,6 +12,9 @@ public class FormValidator {
 
     private static final String CHECK_PHONE = "^(\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\s*)?$";
 
+    private static final String CLOSE_TAG = ">";
+    private static final String OPEN_TAG = "<";
+
     private FormValidator() {
     }
 
@@ -33,6 +36,13 @@ public class FormValidator {
 
     public boolean checkLastName(String lastName) {
         return lastName != null && lastName.matches(CHECK_FIRST_AND_LAST_NAME);
+    }
+
+    public boolean checkXssTag(String text) {
+        if (text == null) {
+            return false;
+        }
+        return text.contains(CLOSE_TAG) || text.contains(OPEN_TAG);
     }
 
     public boolean checkPhone(String phone) {

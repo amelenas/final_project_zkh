@@ -51,20 +51,21 @@
 
         ${steet}
         <td><label>
-            <input type="text" name="street"/>
+            <input type="text" name="street"
+                    pattern="^(\s|\w|\d|<br>)*?$">
         </label></td>
 
         <br/>
         <tr>
             <td>${houseNumber}</td>
             <td><label>
-                <input type="text" name="houseNumber"/>
+                <input type="text" name="houseNumber" pattern="^(\s|\w|\d|<br>)*?$">
             </label></td>
         </tr>
         <tr>
             <td>${apartment}</td>
             <td><label>
-                <input type="text" name="apartment"/>
+                <input type="text" name="apartment" pattern="^(\s|\w|\d|<br>)*?$">
             </label></td>
         </tr>
         <br/>
@@ -72,7 +73,8 @@
             <td>${workDescription}</td>
             <br/>
             <td><label>
-                <textarea required name="scopeOfWork" rows="5" cols="100"></textarea>
+                <textarea aria-required="true" name="scopeOfWork" rows="5" cols="100"
+                           pattern="^(\s|\w|\d|<br>)*?$"></textarea>
                 <small id="helpBlock2" class="form-text text-muted">
                     ${requestNotNull}
                 </small>

@@ -33,7 +33,7 @@ public class RegisterOrderCommand implements Command {
     private static final String CURRENT_PAGE = "current_page";
     private static final String ERROR_REGISTER_ORDER_MASSAGE = "errorRegisterOrderMessage";
     private static final String SUCCESS_REGISTER_ORDER_MASSAGE = "successRegisterOrderMessage";
-    private static final String ERROR_MESSAGE = "Error when registering the order";
+    private static final String ERROR_MESSAGE = "Error during registration. The text should not contain the < or > character";
     private static final String SUCCESS_MESSAGE = " Your order was registered successfully";
     private static final String PROPERTY_NAME = "generalKeys";
     private static final String SAVE_DIRECTORY = "photo.storage";
