@@ -22,9 +22,9 @@ public class OrderServiceImpl implements OrderService {
         this.orderDao = orderDao;
     }
 
-    public Optional<Order> registerOrder(Integer userId, String street, String houseNumber, String apartment,
+    public Order registerOrder(Integer userId, String street, String houseNumber, String apartment,
                                          String scopeOfWork, String desirableTimeOfWork, String photo) throws ServiceException {
-        Optional<Order> order;
+        Optional<Order> optionalOrder;
         if (scopeOfWork == null || scopeOfWork.equals("")) {
             throw new ServiceException("The order text is empty");
         }
@@ -33,22 +33,34 @@ public class OrderServiceImpl implements OrderService {
             throw new ServiceException("The order contains < or > symbol");
         }
         try {
-            order = orderDao.registerOrder(userId, street, houseNumber, apartment, scopeOfWork, desirableTimeOfWork, photo);
+            optionalOrder = orderDao.registerOrder(userId, street, houseNumber, apartment, scopeOfWork, desirableTimeOfWork, photo);
+            if (optionalOrder.isPresent()){
+                return optionalOrder.get();
+            }
+            else {
+                throw new ServiceException(String.format("Exception when registering an order: userId = %s; street = %s; houseNumber = %s; " +
+                        "apartment = %s; scopeOfWork = %s; desirableTimeOfWork = %s;",userId, street,houseNumber,apartment,scopeOfWork,desirableTimeOfWork));
+            }
         } catch (DaoException e) {
             throw new ServiceException("Exception when registering an order", e);
         }
-        return order;
+
     }
 
     @Override
-    public Optional<Order> findById(long id) throws ServiceException {
-        Optional<Order> order;
+    public Order findById(long id) throws ServiceException {
+        Optional<Order> optionalOrder;
         try {
-            order = orderDao.findById(id);
+            optionalOrder = orderDao.findById(id);
+            if (optionalOrder.isPresent()){
+                return optionalOrder.get();
+            }
+            else {
+                throw new ServiceException("There is no such user with id # " + id);
+            }
         } catch (DaoException e) {
             throw new ServiceException("Exception while searching order by OrderID " + id, e);
         }
-        return order;
     }
 
     @Override

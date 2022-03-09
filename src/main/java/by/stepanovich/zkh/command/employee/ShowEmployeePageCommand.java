@@ -40,8 +40,8 @@ public class ShowEmployeePageCommand implements Command {
         try {
             ordersByEmployeeId = workService.findAllOrdersByEmployeeId(employeeId);
             for (Long orderId : ordersByEmployeeId) {
-                Order order = orderService.findById(orderId).get();
-                orders.put(order, userService.findById(order.getUserId()).get());
+                Order order = orderService.findById(orderId);
+                orders.put(order, userService.findById(order.getUserId()));
             }
              request.setAttribute(ORDERS_BY_EMPLOYEE, orders);
         } catch (ServiceException e) {

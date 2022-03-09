@@ -3,7 +3,6 @@ package by.stepanovich.zkh.service.impl;
 import by.stepanovich.zkh.dao.WorkDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.dao.factory.DaoFactory;
-import by.stepanovich.zkh.dao.impl.WorkDAOImpl;
 import by.stepanovich.zkh.entity.SiteOfWork;
 import by.stepanovich.zkh.entity.TypeOfWork;
 import by.stepanovich.zkh.service.WorkService;

@@ -10,9 +10,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface OrderService {
-    Optional<Order> registerOrder(Integer userId, String street, String houseNumber, String apartment, String scopeOfWork, String desirableTimeOfWork, String photo) throws ServiceException;
+   Order registerOrder(Integer userId, String street, String houseNumber, String apartment, String scopeOfWork, String desirableTimeOfWork, String photo) throws ServiceException;
 
-    Optional<Order> findById(long id) throws ServiceException;
+    Order findById(long id) throws ServiceException;
 
     List<Order> findAllUserOrderById(long userId) throws ServiceException;
 

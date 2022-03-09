@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 public class ShowProfileCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowProfileCommand.class);
@@ -23,20 +22,16 @@ public class ShowProfileCommand implements Command {
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {
-
-        Optional<User> optionalUser;
+        User user;
         try {
             long userId = Long.parseLong(String.valueOf(request.getSession().getAttribute(USER_ID)));
-            optionalUser = USER_SERVICE.findById(userId);
+            user = USER_SERVICE.findById(userId);
         } catch (ServiceException e) {
             LOGGER.error("Exception in ShowProfileCommand");
             request.setAttribute(EXCEPTION, e);
             return new ResponseContext(PathOfJsp.ERROR_500_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }
-        if (optionalUser.isEmpty()) {
-            return new ShowMainPageCommand().execute(request);
-        }
-        request.setAttribute(USER, optionalUser.get());
+        request.setAttribute(USER, user);
         return new ResponseContext(PathOfJsp.SHOW_PROFILE_PAGE, ResponseContext.ResponseContextType.FORWARD);
     }
 }

@@ -40,22 +40,22 @@ public class AssignPerformerCommand implements Command {
     @Override
     public ResponseContext execute(HttpServletRequest request) {
         long orderId = Long.parseLong(request.getParameter(REGISTRATION_ID));
-        Optional<User> userOptional;
-        Optional<Order> orderOptional;
+       User user;
+        Order order;
         List<SiteOfWork> sitesOfWork;
         List<TypeOfWork> typesOfWorks;
         try {
             sitesOfWork = workService.findAllSitesOfWork();
             typesOfWorks = workService.findAllTypesOfWork();
-            orderOptional = orderService.findById(orderId);
-            userOptional = userService.findById(orderOptional.get().getUserId());
+            order = orderService.findById(orderId);
+            user = userService.findById(order.getUserId());
 
-            request.setAttribute(USER_ID, userOptional.get().getUserId());
-            request.setAttribute(NAME, userOptional.get().getUserName());
-            request.setAttribute(SURNAME, userOptional.get().getUserSurname());
-            request.setAttribute(EMAIL, userOptional.get().getEmail());
-            request.setAttribute(PHONE, userOptional.get().getPhone());
-            request.setAttribute(ORDER_DATA, orderOptional.get());
+            request.setAttribute(USER_ID, user.getUserId());
+            request.setAttribute(NAME, user.getUserName());
+            request.setAttribute(SURNAME, user.getUserSurname());
+            request.setAttribute(EMAIL, user.getEmail());
+            request.setAttribute(PHONE, user.getPhone());
+            request.setAttribute(ORDER_DATA, order);
             request.setAttribute(SITES_OF_WORK, sitesOfWork);
             request.setAttribute(TYPES_OF_WORKS, typesOfWorks);
             request.setAttribute(REGISTRATION_ID, orderId);

@@ -21,7 +21,7 @@
     <title>${title}</title>
 </head>
 <body>
-
+<h1 align="center">${title}</h1><br/><br/>
 <h1 align="center">${message}</h1><br/><br/>
 <h3 align="center"><a href="${pageContext.request.contextPath}/controller?command=show_main_page">${home}</a></h3>
 

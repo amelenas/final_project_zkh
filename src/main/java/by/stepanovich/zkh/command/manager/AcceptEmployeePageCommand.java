@@ -29,7 +29,7 @@ public class AcceptEmployeePageCommand implements Command {
             Set<Long> employeeId = workService.findAllNewEmployeeId();
             List<User> users = new ArrayList<>();
             for (long id : employeeId) {
-                users.add(userService.findById(id).get());
+                users.add(userService.findById(id));
             }
             request.setAttribute(USERS, users);
         } catch (ServiceException e) {

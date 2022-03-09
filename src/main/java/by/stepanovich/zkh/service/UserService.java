@@ -9,11 +9,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface UserService {
-    Optional<User> login(String login, String password) throws ServiceException;
+    User login(String login, String password) throws ServiceException;
 
-    Optional<User> register(String email, String password, String userName, String userSurname, String phone) throws ServiceException;
+    User register(String email, String password, String userName, String userSurname, String phone) throws ServiceException;
 
-    Optional<User> findById(long id) throws ServiceException;
+    User findById(long id) throws ServiceException;
 
     boolean changePassword(String oldPassword, String newPassword, String id) throws ServiceException;
 
@@ -21,9 +21,9 @@ public interface UserService {
 
     Set<User> findAllUsers(int page) throws ServiceException;
 
-    Optional<User> findByEmail(String email) throws ServiceException;
+    User findByEmail(String email) throws ServiceException;
 
-    Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws ServiceException;
+    User updateUserData(long id, String firstName, String lastName, String email, String phone) throws ServiceException;
 
     boolean changeRole(String email, Role role) throws ServiceException;
 }

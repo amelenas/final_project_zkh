@@ -32,7 +32,7 @@ public class CheckClosedOrdersCommand implements Command {
         try {
             orders = orderService.findOrdersByStatus(OrderStatus.CLOSED_BY_EMPLOYEE);
             for (Order order: orders){
-                closedOrders.put(order,userService.findById(order.getUserId()).get());
+                closedOrders.put(order,userService.findById(order.getUserId()));
             }
         } catch (ServiceException e) {
             LOGGER.error("Exception when checking closed applications", e);

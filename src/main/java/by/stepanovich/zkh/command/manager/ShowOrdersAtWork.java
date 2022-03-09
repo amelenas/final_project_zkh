@@ -37,7 +37,7 @@ public class ShowOrdersAtWork implements Command {
             for (Order order : orders){
                 List<Long> performersID = workService.findWorkPerformerId(order.getRegistrationId());
                 for (Long id: performersID)
-                workers.put(order, userService.findById(id).get());
+                workers.put(order, userService.findById(id));
             }
         } catch (ServiceException e) {
             LOGGER.error("Exception when checking applications at work", e);

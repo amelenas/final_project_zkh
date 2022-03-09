@@ -46,7 +46,6 @@ public class RegisterOrderCommand implements Command {
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {
-        Optional<Order> optionalOrder = Optional.empty();
         HttpSession session = request.getSession();
         StringBuilder fileNameForSaving = new StringBuilder();
         StringBuilder desirableTime = new StringBuilder();
@@ -101,18 +100,16 @@ public class RegisterOrderCommand implements Command {
             LOGGER.error("Exception when trying to save photo", e);
         }
         try {
-            optionalOrder = orderService.registerOrder(Integer.parseInt(session.getAttribute(USER_ID).toString()),
+           orderService.registerOrder(Integer.parseInt(session.getAttribute(USER_ID).toString()),
                     String.valueOf(street), String.valueOf(houseNumber), String.valueOf(apartment), String.valueOf(scopeOfWork),
                     desirableTime.toString(), String.valueOf(fileNameForSaving));
         } catch (ServiceException e) {
             LOGGER.error("Exception in RegisterOrder command", e);
-        }
-
-        if (optionalOrder.isEmpty()) {
             request.setAttribute(ERROR_REGISTER_ORDER_MASSAGE, ERROR_MESSAGE);
             request.setAttribute(CURRENT_PAGE, PathOfJsp.USER_REGISTER_ORDER);
             return new ShowRegisterRequestPageCommand().execute(request);
         }
+
         session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_REQUEST_ACCEPTED_COMMAND);
         request.setAttribute(SUCCESS_REGISTER_ORDER_MASSAGE, SUCCESS_MESSAGE);
         return new ResponseContext(PathOfJsp.SHOW_REQUEST_ACCEPTED_COMMAND, ResponseContext.ResponseContextType.REDIRECT);

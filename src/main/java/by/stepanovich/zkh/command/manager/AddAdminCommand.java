@@ -28,7 +28,7 @@ public class AddAdminCommand implements Command {
     @Override
     public ResponseContext execute(HttpServletRequest request) {
         try {
-            User user = userService.findByEmail(request.getParameter(EMAIL)).get();
+            User user = userService.findByEmail(request.getParameter(EMAIL));
            if (user.getRole().equals(Role.EMPLOYEE)){
                List<Long> allOrders = workService.findAllOrdersByEmployeeId(user.getUserId());
                for (long orderId:allOrders){

@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 public class LogInCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(LogInCommand.class);
@@ -33,24 +32,19 @@ public class LogInCommand implements Command {
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {
-        Optional<User> optionalUser = Optional.empty();
+        User user;
         HttpSession session = request.getSession();
         try {
-            optionalUser = USER_SERVICE
-                    .login(request.getParameter(EMAIL), request.getParameter(PASSWORD));
+            user = USER_SERVICE.login(request.getParameter(EMAIL), request.getParameter(PASSWORD));
         } catch (ServiceException e) {
             LOGGER.error("Exception in LogInCommand", e);
-        }
-
-        if (optionalUser.isPresent()) {
-            setLoginAttributesIntoSession(request, optionalUser.get());
-            session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_PROFILE_PAGE);
-            return new ShowProfileCommand().execute(request);
-        } else {
             request.setAttribute(LOGIN_MESSAGE, INVALID_CREDENTIALS);
             session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_USER_LOGIN_PAGE);
             return new ResponseContext(PathOfJsp.SHOW_USER_LOGIN_PAGE, ResponseContext.ResponseContextType.FORWARD);
         }
+            setLoginAttributesIntoSession(request, user);
+            session.setAttribute(CURRENT_PAGE, PathOfJsp.SHOW_PROFILE_PAGE);
+            return new ShowProfileCommand().execute(request);
     }
 
     private void setLoginAttributesIntoSession(HttpServletRequest request, User user) {

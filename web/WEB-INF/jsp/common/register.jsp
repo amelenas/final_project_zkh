@@ -39,7 +39,18 @@
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">
 <jsp:include page="header.jsp"/>
 <div class="container" style="height: 80vh">
-
+    <div class="row">
+        <c:if test="${requestScope.errorMessage != null}">
+            <div class="form-group">
+                <div class="err-message-from-server">
+                                <span style="color: maroon; ">
+                                <fmt:setBundle basename="locale" var="rb"/>
+                                <fmt:message key="${requestScope.errorMessage}" bundle="${rb}"/>
+                                </span>
+                </div>
+            </div>
+        </c:if>
+    </div>
     <br/>
     <div class="row">
         <form action="${pageContext.request.contextPath}/controller?command=register" method="post">
@@ -105,19 +116,6 @@
                            required pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,20}">
                 </div> </div>
                 <br/>
-            <div class="row">
-                <c:if test="${requestScope.errorMessage != null}">
-                    <div class="form-group">
-                            <div class="err-message-from-server">
-                                <span style="color: maroon; ">
-                                <fmt:setBundle basename="locale" var="rb"/>
-                                <fmt:message key="${requestScope.errorMessage}" bundle="${rb}"/>
-                                </span>
-                            </div>
-                        </div>
-                </c:if>
-            </div>
-
             <button class="btn btn-primary" type="submit">${signUp}</button>
         </form>
     </div>

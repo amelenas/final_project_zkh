@@ -26,47 +26,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> login(String email, String password) throws ServiceException {
-        Optional<User> user;
+    public User login(String email, String password) throws ServiceException {
         if (!validator.checkEmail(email) || !validator.checkPassword(password)) {
             throw new ServiceException("Input data is invalid");
         }
         try {
-            user = userDao.findByEmail(email);
-            if (user.isPresent() && new HashPassword().hashPassword(password).equals(user.get().getPassword())) {
-                return user;
+            Optional<User> user = userDao.findByEmail(email);
+            if (user.isPresent() && user.get().getPassword().equals(new HashPassword().hashPassword(password))) {
+                return user.get();
             } else {
-                return Optional.empty();
+                throw new ServiceException("Password is invalid ");
             }
-        } catch (ZkhUtilException | DaoException e) {
+        } catch (DaoException | ZkhUtilException e) {
             throw new ServiceException("Exception when the user logs in ", e);
         }
     }
 
     @Override
-    public Optional<User> register(String email, String password, String userName, String userSurname, String phone) throws ServiceException {
-        Optional<User> optionalUser;
+    public User register(String email, String password, String userName, String userSurname, String phone) throws ServiceException {
         if (!validator.checkEmail(email) || !validator.checkPassword(password)
                 || !validator.checkFirstName(userName) || !validator.checkLastName(userSurname)
                 || !validator.checkPhone(phone)) {
             throw new ServiceException("Input data is invalid");
         }
         try {
-            optionalUser = userDao.findByEmail(email);
-
-            if (optionalUser.isPresent()) {
-                return Optional.empty();
+            Optional<User> optionalUser = userDao.findByEmail(email);
+            if (optionalUser.isEmpty()) {
+                return userDao.registerUser(email, new HashPassword().hashPassword(password), userName, userSurname, phone).get();
+            } else {
+                throw new ServiceException("User is already exist ");
             }
-            return userDao.registerUser(email, new HashPassword().hashPassword(password), userName, userSurname, phone);
         } catch (DaoException | ZkhUtilException e) {
             throw new ServiceException("Exception during user registration ", e);
         }
     }
 
     @Override
-    public Optional<User> findById(long id) throws ServiceException {
+    public User findById(long id) throws ServiceException {
         try {
-            return userDao.findById(id);
+            Optional <User> userOptional =  userDao.findById(id);
+            if (userOptional.isPresent()){
+                return userOptional.get();
+            }
+            else {
+                throw new ServiceException("There is no such user");
+            }
         } catch (DaoException e) {
             throw new ServiceException("Exception in id search method", e);
         }
@@ -75,15 +79,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(String oldPassword, String newPassword, String id) throws ServiceException {
         boolean result = false;
-        User user;
         if (!validator.checkPassword(newPassword) && !validator.checkPassword(oldPassword)) {
-            throw new ServiceException("New Password or Old Password format is invalid");
+            throw new ServiceException("New Password or old password format is invalid");
         }
         try {
             Optional<User> optionalUser = userDao.findById(Long.parseLong(id));
             if (optionalUser.isPresent()) {
-                user = optionalUser.get();
-                if(user.getPassword().equals(new HashPassword().hashPassword(oldPassword))){
+                User user = optionalUser.get();
+                if (user.getPassword().equals(new HashPassword().hashPassword(oldPassword))) {
                     result = userDao.changePassword(new HashPassword().hashPassword(newPassword), Long.parseLong(id));
                 }
             }
@@ -113,25 +116,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) throws ServiceException {
+    public User findByEmail(String email) throws ServiceException {
         if (!validator.checkEmail(email)) {
             throw new ServiceException("Input data is invalid");
         }
         try {
-            return userDao.findByEmail(email);
+            Optional <User> userOptional = userDao.findByEmail(email);
+            if(userOptional.isPresent()){
+                return userOptional.get();
+            }
+            else {
+                throw new ServiceException("There is no such user with email: " + email);
+            }
+
         } catch (DaoException e) {
             throw new ServiceException("Exception in findByEmail method");
         }
     }
 
     @Override
-    public Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws ServiceException {
+    public User updateUserData(long id, String firstName, String lastName, String email, String phone) throws ServiceException {
         if (!validator.checkEmail(email) || !validator.checkFirstName(firstName) ||
                 !validator.checkLastName(lastName) || !validator.checkPhone(phone)) {
             throw new ServiceException("Input data is invalid");
         }
         try {
-            return userDao.updateUserData(id, firstName, lastName, email, phone);
+            return userDao.updateUserData(id, firstName, lastName, email, phone).get();
         } catch (DaoException e) {
             throw new ServiceException("Exception in updateUserData method");
         }

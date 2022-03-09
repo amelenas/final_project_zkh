@@ -6,12 +6,7 @@
 <fmt:setBundle basename="locale"/>
 
 <fmt:message key="error500.page" var="title"/>
-<fmt:message key="error500.request" var="request"/>
-<fmt:message key="error500.servlet" var="servlet"/>
-<fmt:message key="error500.statusCode" var="code"/>
-<fmt:message key="error500.exception" var="exception"/>
 <fmt:message key="error500.message" var="message"/>
-<fmt:message key="error500.stackTrace" var="stackTrace"/>
 <fmt:message key="error500.backHome" var="home"/>
 
 <!doctype html>
@@ -28,23 +23,11 @@
 </head>
 <body>
 <span style="color: black; ">
- ${request} ${pageContext.errorData.requestURI} is failed <br/>
 <hr/>
-${servlet} ${pageContext.errorData.servletName} <br/>
-<hr/>
-${code} ${pageContext.errorData.statusCode} <br/>
-<hr/>
-${exception} ${requestScope.exception} <br/>
-<hr/>
-${message} ${requestScope.exception.message} <br/>
-<hr/>
-${stackTrace} <br/>
-<c:forEach var="stackTraceElement" items="${requestScope.exception.stackTrace}">
-    <c:out value="${stackTraceElement}"/><br/>
-</c:forEach><br/>
+     <h1 align="center">${title}</h1><br/><br/>
+<h3 align="center"><a href="${pageContext.request.contextPath}/controller?command=show_main_page">${home}</a></h3>
 <hr/>
 </span>
-<a href="${pageContext.request.contextPath}/controller?command=show_main_page">${home}</a>
 
 </body>
 </html>

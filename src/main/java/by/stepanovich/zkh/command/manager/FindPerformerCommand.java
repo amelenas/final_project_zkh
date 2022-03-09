@@ -55,7 +55,7 @@ public class FindPerformerCommand implements Command {
         try {
             performersID = workService.findPerformerForWork(typeOfWorksId, siteOfWork);
             for (Long idPerformer : performersID) {
-                performers.add(userService.findById(idPerformer).get());
+                performers.add(userService.findById(idPerformer));
             }
         } catch (ServiceException e) {
             LOGGER.error("Exception when searching for performer", e);
