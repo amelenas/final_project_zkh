@@ -1,8 +1,5 @@
 package by.stepanovich.zkh.service.factory;
 
-import by.stepanovich.zkh.dao.OrderDao;
-import by.stepanovich.zkh.dao.UserDao;
-import by.stepanovich.zkh.dao.WorkDao;
 import by.stepanovich.zkh.service.OrderService;
 import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.WorkService;
@@ -13,26 +10,14 @@ import by.stepanovich.zkh.service.impl.WorkServiceImpl;
 public class ServiceFactory {
     private final static ServiceFactory instance = new ServiceFactory();
 
-    private UserService userService = new UserServiceImpl();
-    private OrderService orderService = new OrderServiceImpl();
-    private WorkService workService = new WorkServiceImpl();
+    private final UserService userService = new UserServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
+    private final WorkService workService = new WorkServiceImpl();
 
     private ServiceFactory() {
     }
 
     public static ServiceFactory getInstance(){return instance;}
-
-    public void setUserService(UserDao userDao) {
-        this.userService = new UserServiceImpl(userDao);
-    }
-
-    public void setOrderService(OrderDao orderDao) {
-        this.orderService = new OrderServiceImpl(orderDao);
-    }
-
-    public void setWorkService(WorkDao workDao) {
-        this.workService = new WorkServiceImpl(workDao);
-    }
 
     public UserService getUserService() {
         return userService;

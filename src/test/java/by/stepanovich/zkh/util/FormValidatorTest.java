@@ -1,56 +1,29 @@
 package by.stepanovich.zkh.util;
 
-import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
-
 public class FormValidatorTest {
-
-    @Test
-    public void checkPassword() {
-        assertTrue(FormValidator.getInstance().checkPassword("Aaaaaaaaa8"));
+    @ParameterizedTest
+    @MethodSource("checkPasswordProvider")
+    public void checkPassword(String value) {
+        assertTrue(FormValidator.getInstance().checkPassword(value));
     }
 
-    @Test
-    public void checkPasswordFalse() {
-        assertFalse(FormValidator.getInstance().checkPassword("Aaa8"));
+    static Stream<String> checkPasswordProvider() {
+        return Stream.of("Fffffffffffffff8", "Gggggggggg8", "Aababababa8", "dfhryTnnmdd9", "ddueUYEYHD85" );
     }
 
-    @Test
-    public void checkFirstName() {
-        assertTrue(FormValidator.getInstance().checkFirstName("Виктор"));
+    @ParameterizedTest
+    @MethodSource("checkPasswordNegativeProvider")
+    public void checkPasswordNegative(String value) {
+        assertFalse(FormValidator.getInstance().checkPassword(value));
     }
 
-    @Test
-    public void checkFirstNameFalse() {
-        assertFalse(FormValidator.getInstance().checkFirstName("Виктор5"));
-    }
-
-    @Test
-    public void checkLastName() {
-        assertTrue(FormValidator.getInstance().checkLastName("Бабанова"));
-    }
-    @Test
-    public void checkLastNameFalse() {
-        assertFalse(FormValidator.getInstance().checkLastName("Бабанова2"));
-    }
-
-    @Test
-    public void checkPhone() {
-        assertTrue(FormValidator.getInstance().checkPhone("+37525665863"));
-    }
-    @Test
-    public void checkPhoneFalse() {
-        assertFalse(FormValidator.getInstance().checkPhone("+3752566+"));
-    }
-
-    @Test
-    public void checkEmail() {
-        assertTrue(FormValidator.getInstance().checkEmail("mail@mail.ru"));
-    }
-
-    @Test
-    public void checkEmailFalse() {
-        assertFalse(FormValidator.getInstance().checkEmail("mailmail.ru"));
+    static Stream<String> checkPasswordNegativeProvider() {
+        return Stream.of("Fff8", "Gggggggggg", "Ыыыыыыыыыыыыы", "9878798797987878", "р" );
     }
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CloseOrderCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CloseOrderCommand.class);
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String ORDER_ID = "registrationId";
     private static final String EXCEPTION = "exception";

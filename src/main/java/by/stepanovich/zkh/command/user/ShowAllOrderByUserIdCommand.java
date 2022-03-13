@@ -16,7 +16,7 @@ import java.util.List;
 public class ShowAllOrderByUserIdCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowAllOrderByUserIdCommand.class);
 
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private static final String USER_ID = "id";
     private static final String ORDER_DATA = "orderData";
     private static final String EXCEPTION = "exception";

@@ -25,7 +25,7 @@ public class RegisterCommand implements Command {
     private static final String PASSWORD_NOT_EQUAL = "password.not.equal";
     private static final String DATA_NOT_VALID = "login.or.password.is.not.valid";
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {

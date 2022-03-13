@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class RegisterEmployeeCommand implements Command {
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
     private static final Logger LOGGER = LogManager.getLogger(RegisterEmployeeCommand.class);
 
     private static final String TYPE_OF_WORKS = "typeOfWorks";

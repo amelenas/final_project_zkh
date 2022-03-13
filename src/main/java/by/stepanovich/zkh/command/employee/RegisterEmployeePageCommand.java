@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RegisterEmployeePageCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(RegisterEmployeePageCommand.class);
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
 
     private static final String EXCEPTION = "exception";
     private static final String SITES_OF_WORK = "sitesOfWork";

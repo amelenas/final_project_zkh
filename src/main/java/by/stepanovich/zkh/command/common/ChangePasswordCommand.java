@@ -22,7 +22,7 @@ public class ChangePasswordCommand implements Command {
     private static final String CURRENT_PAGE = "current_page";
     private static final String EXCEPTION = "exception";
     private static final String USER_ID = "id";
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
 
     @Override

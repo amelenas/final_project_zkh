@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 public class RejectEmployeeCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(RejectEmployeeCommand.class);
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
     private static final String EXCEPTION = "exception";
     private static final String EMAIL = "email";
     private static final String USER_ID = "userId";

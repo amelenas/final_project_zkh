@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -28,8 +27,8 @@ public class FindPerformerCommand implements Command {
     private static final String TYPE_OF_WORKS = "typeOfWorks";
     private static final String SITE_OF_WORK = "siteOfWork";
 
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {

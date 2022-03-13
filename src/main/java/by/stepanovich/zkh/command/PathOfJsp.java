@@ -14,7 +14,6 @@ public class PathOfJsp {
     public static final String SHOW_REQUEST_ACCEPTED = "/WEB-INF/jsp/user/requestAccepted.jsp";
     public static final String ALL_USER_ORDERS_COMMAND = "controller?command=show_all_user_orders";
     public static final String ERROR_500_PAGE = "/WEB-INF/jsp/error/error500.jsp";
-    public static final String ERROR_404_PAGE = "/WEB-INF/jsp/error/error404.jsp";
     public static final String ALL_USER_ORDERS_VIEW = "/WEB-INF/jsp/user/allUserOrdersView.jsp";
     public static final String BUILD_ORDER_REPORT = "/WEB-INF/jsp/reports/ordersReport.jsp";
     public static final String BUILD_USER_REPORT = "/WEB-INF/jsp/reports/usersReport.jsp";

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ShowAllUsersCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowAllUsersCommand.class);
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
     private static final String EXCEPTION = "exception";
     private static final String USER_BEAN = "userBean";
 

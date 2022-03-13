@@ -28,7 +28,7 @@ public class LogInCommand implements Command {
     private static final String LOGIN_MESSAGE = "loginMessage";
     private static final String INVALID_CREDENTIALS = "login.invalid.credentials";
 
-    private UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
+    private final UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {

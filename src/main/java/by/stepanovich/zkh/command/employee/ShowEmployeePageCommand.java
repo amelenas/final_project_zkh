@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,9 +22,9 @@ import java.util.TreeMap;
 public class ShowEmployeePageCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowEmployeePageCommand.class);
 
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
-    private UserService userService = ServiceFactory.getInstance().getUserService();
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
     private static final String USER_ID = "id";
     private static final String ORDERS_BY_EMPLOYEE = "ordersMap";
     private static final String EXCEPTION = "exception";

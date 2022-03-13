@@ -19,9 +19,9 @@ import java.util.List;
 
 public class AddAdminCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(AddAdminCommand.class);
-    private UserService userService = ServiceFactory.getInstance().getUserService();
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
     private static final String EMAIL = "email";
     private static final String EXCEPTION = "exception";
 

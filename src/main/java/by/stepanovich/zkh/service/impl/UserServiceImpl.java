@@ -16,11 +16,7 @@ import java.util.Set;
 
 public class UserServiceImpl implements UserService {
     private final FormValidator validator = FormValidator.getInstance();
-    private UserDao userDao = DaoFactory.getInstance().getUserDao();
-
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    private final UserDao userDao = DaoFactory.getInstance().getUserDao();
 
     public UserServiceImpl() {
     }

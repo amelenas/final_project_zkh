@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthenticationFilter implements Filter {
-    private ServletContext context;
 
     private static final String COMMAND_PARAMETER_NAME = "command";
     private static final String ROLE = "role";
@@ -25,8 +24,8 @@ public class AuthenticationFilter implements Filter {
     private static final String IMAGE = "image";
 
     @Override
-    public void init(FilterConfig filterConfig) {
-        this.context = filterConfig.getServletContext();
+    public void init(FilterConfig filterConfig){
+        filterConfig.getServletContext();
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 
 public class CloseByEmployeeOrderCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CloseByEmployeeOrderCommand.class);
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String ORDER_ID = "registrationId";
     private static final String USER_ID = "id";

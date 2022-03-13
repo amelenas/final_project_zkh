@@ -1,5 +1,6 @@
 package by.stepanovich.zkh.dao.impl;
 
+import by.stepanovich.zkh.connection.ConnectionPool;
 import by.stepanovich.zkh.connection.exception.ConnectionPoolException;
 import by.stepanovich.zkh.dao.UserDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
@@ -9,8 +10,6 @@ import by.stepanovich.zkh.entity.UserStatus;
 
 import java.sql.*;
 import java.util.*;
-
-import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
 
 public class UserDaoImpl implements UserDao {
     private static final int ELEMENTS_ON_PAGE = 10;
@@ -42,9 +41,9 @@ public class UserDaoImpl implements UserDao {
 
 
     public Optional<User> registerUser(String email, String password, String userName, String userSurname, String phone) throws DaoException {
-
-        try (Connection connection = getInstance().retrieveConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM)) {
+        long id = 0;
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             preparedStatement.setString(3, userName);
@@ -53,14 +52,19 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setInt(6, 1);
             preparedStatement.setInt(7, 1);
             preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
         } catch (SQLException | ConnectionPoolException e) {
             throw new DaoException("Exception during user registration", e);
         }
-        return findByEmail(email);
+        return findById(id);
     }
 
     public Optional<User> findByEmail(String email) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_EMAIL)) {
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -87,7 +91,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findById(long id) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -104,7 +108,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Set<User> findAllUsers() throws DaoException {
         Set<User> users = new HashSet<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(FIND_ALL_USERS);
             while (resultSet.next()) {
@@ -119,7 +123,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean changePassword(String newPassword, long id) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_PASSWORD)) {
             preparedStatement.setString(1, newPassword);
             preparedStatement.setLong(2, id);
@@ -132,7 +136,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> updateUserData(long id, String firstName, String lastName, String email, String phone) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_USER_DATA)) {
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -148,7 +152,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean changeRole(String email, Role role) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_USER_ROLE)) {
             preparedStatement.setInt(1, role.ordinal() + 1);
             preparedStatement.setString(2, email);
@@ -162,7 +166,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Set<User> findAllUsers(int page) throws DaoException {
         Set<User> usersOnPage = new TreeSet<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_PAGE_QUERY)) {
             preparedStatement.setInt(1, ELEMENTS_ON_PAGE * (page - 1));
             preparedStatement.setInt(2, ELEMENTS_ON_PAGE);

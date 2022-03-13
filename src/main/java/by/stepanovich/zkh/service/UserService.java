@@ -1,11 +1,9 @@
 package by.stepanovich.zkh.service;
 
-
 import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
 import by.stepanovich.zkh.service.exception.ServiceException;
 
-import java.util.Optional;
 import java.util.Set;
 
 public interface UserService {

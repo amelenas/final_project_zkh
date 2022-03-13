@@ -12,14 +12,10 @@ import by.stepanovich.zkh.util.FormValidator;
 import java.util.*;
 
 public class OrderServiceImpl implements OrderService {
-    private OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
+    private final OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
     private final FormValidator validator = FormValidator.getInstance();
 
     public OrderServiceImpl() {
-    }
-
-    public OrderServiceImpl(OrderDao orderDao) {
-        this.orderDao = orderDao;
     }
 
     public Order registerOrder(Integer userId, String street, String houseNumber, String apartment,

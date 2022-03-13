@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ShowAssignPerformerPageCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowAssignPerformerPageCommand.class);
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
 
     private static final String ORDER_DATA = "orderData";
     private static final String EXCEPTION = "exception";

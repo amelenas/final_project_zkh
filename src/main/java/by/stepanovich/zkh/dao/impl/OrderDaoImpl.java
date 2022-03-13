@@ -1,22 +1,17 @@
 package by.stepanovich.zkh.dao.impl;
 
+import by.stepanovich.zkh.connection.ConnectionPool;
 import by.stepanovich.zkh.connection.exception.ConnectionPoolException;
 import by.stepanovich.zkh.dao.OrderDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.Order;
 import by.stepanovich.zkh.entity.OrderStatus;
-import by.stepanovich.zkh.entity.User;
 
 import java.sql.*;
 import java.util.*;
 
-import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
-
 public class OrderDaoImpl implements OrderDao {
     private static final int ELEMENTS_ON_PAGE = 10;
-    private static final String FIND_USER_ORDER_BY_ID_WORK_OPEN_DATE = """
-            SELECT *
-            FROM orders where (user_id=?  and opening_date=?)""";
     private static final String FIND_ORDERS_BY_STATUS = """
             SELECT *
             FROM orders
@@ -57,8 +52,10 @@ public class OrderDaoImpl implements OrderDao {
     public Optional<Order> registerOrder(int userId, String street, String houseNumber, String apartment, String scopeOfWork, String desirableTimeOfWork, String photo) throws DaoException {
         String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()));
         String currentTime = timestamp.substring(0, timestamp.indexOf("."));
-        try (Connection connection = getInstance().retrieveConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM)){
+        long id = 0;
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_ITEM, Statement.RETURN_GENERATED_KEYS)){
+
             preparedStatement.setLong(1, userId);
             preparedStatement.setString(2, street);
             preparedStatement.setString(3, houseNumber);
@@ -69,16 +66,21 @@ public class OrderDaoImpl implements OrderDao {
             preparedStatement.setInt(8, 1);
             preparedStatement.setString(9, photo);
             preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
         } catch (SQLException | ConnectionPoolException sql) {
             throw new DaoException("Exception in OrderDaoImpl ", sql);
         }
-         return findByIdScopeOfWorkDate(userId, currentTime);
+         return findById(id);
     }
 
     @Override
     public List<Order> findAllUsersOrderById(long userId) throws DaoException {
         List<Order> orders = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement statement = connection.prepareStatement(FIND_ALL_ORDER_BY_USER_ID)){
             statement.setLong(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -100,7 +102,7 @@ public class OrderDaoImpl implements OrderDao {
         String timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()));
         String currentTime = timestamp.substring(0, timestamp.indexOf("."));
 
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_STATUS)){
             preparedStatement.setInt(1, orderStatus.ordinal()+1);
             if(orderStatus.equals(OrderStatus.COMPLETED)){
@@ -119,7 +121,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Map<String, String> extractPhotos() throws DaoException {
         Map<String, String> photos = new HashMap();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             Statement statement =  connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(FIND_PHOTO);
             while (resultSet.next()) {
@@ -134,7 +136,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Set<Order> findAllOrder() throws DaoException {
         Set<Order> orders = new HashSet<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             Statement statement =  connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(FIND_ALL_ORDERS);
                 while (resultSet.next()) {
@@ -150,7 +152,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findOrdersByStatus(OrderStatus orderStatus) throws DaoException {
         List <Order> orders = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDERS_BY_STATUS)){
             preparedStatement.setLong(1, orderStatus.ordinal()+1);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -166,7 +168,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> findOrdersByStatus(OrderStatus orderStatus, int page) throws DaoException {
         List<Order> ordersOnPage = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_PAGE_QUERY)) {
             preparedStatement.setInt(1, orderStatus.ordinal()+1);
             preparedStatement.setInt(2, ELEMENTS_ON_PAGE * (page - 1));
@@ -185,26 +187,10 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public Optional<Order> findById(long orderID) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ORDER_BY_ID)){
             preparedStatement.setLong(1, orderID);
              ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Order order = readOrder(resultSet);
-                return Optional.of(order);
-            }
-        } catch (SQLException | ConnectionPoolException sql) {
-            throw new DaoException("Exception in OrderDaoImpl ", sql);
-        }
-        return Optional.empty();
-    }
-
-    private Optional<Order> findByIdScopeOfWorkDate(int userId, String opening_date) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_USER_ORDER_BY_ID_WORK_OPEN_DATE)){
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(opening_date));
-            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Order order = readOrder(resultSet);
                 return Optional.of(order);

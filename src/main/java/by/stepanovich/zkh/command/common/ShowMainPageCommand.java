@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShowMainPageCommand implements Command {
-    private OrderService ORDER_SERVICE = ServiceFactory.getInstance().getOrderService();
+    private final OrderService ORDER_SERVICE = ServiceFactory.getInstance().getOrderService();
     private static final String PICTURES = "pictures";
     private static final String CURRENT_PAGE = "current_page";
     private static final String EXCEPTION = "exception";
@@ -31,6 +31,7 @@ public class ShowMainPageCommand implements Command {
             for (Map.Entry<String, String> entry : photos.entrySet()) {
 
                 String contextPath = IMAGE_TAG+entry.getKey();
+
                 result.put(contextPath, entry.getValue());
             }
             request.setAttribute(PICTURES, result);

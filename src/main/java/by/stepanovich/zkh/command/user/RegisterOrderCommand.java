@@ -3,7 +3,6 @@ package by.stepanovich.zkh.command.user;
 import by.stepanovich.zkh.command.Command;
 import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.ResponseContext;
-import by.stepanovich.zkh.entity.Order;
 import by.stepanovich.zkh.service.OrderService;
 import by.stepanovich.zkh.service.exception.ServiceException;
 import by.stepanovich.zkh.service.factory.ServiceFactory;
@@ -64,8 +63,9 @@ public class RegisterOrderCommand implements Command {
                         item.getFieldName().equalsIgnoreCase(PHOTO)) {
 
                     fileNameForSaving = new StringBuilder(item.getName());
-                    fileNameForSaving.insert(0, currentTime.substring(0, timestamp.indexOf(" "))).insert(0, (int) (Math.random() * 100));
-                    item.write(new File(bundle.getString(SAVE_DIRECTORY) + File.separator + fileNameForSaving));
+                    fileNameForSaving.insert(0, currentTime.substring(0, timestamp.indexOf(" ")));
+                    fileNameForSaving.insert(0, (int) (Math.random() * 100));
+                    item.write(new File( request.getSession().getServletContext().getRealPath("/")+bundle.getString(SAVE_DIRECTORY) + fileNameForSaving));
                 }
 
                 if (item.getFieldName().equalsIgnoreCase(DESIRABLE_TIME_OF_WORK)) {

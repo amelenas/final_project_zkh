@@ -20,8 +20,8 @@ import java.util.TreeMap;
 
 public class CheckClosedOrdersCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CheckClosedOrdersCommand.class);
-    private OrderService orderService = ServiceFactory.getInstance().getOrderService();
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final OrderService orderService = ServiceFactory.getInstance().getOrderService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
     private static final String CLOSED_ORDERS = "closedOrders";
     private static final String EXCEPTION = "exception";
 

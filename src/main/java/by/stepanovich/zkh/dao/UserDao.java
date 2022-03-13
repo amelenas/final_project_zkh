@@ -4,7 +4,6 @@ import by.stepanovich.zkh.dao.exception.DaoException;
 import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.entity.User;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

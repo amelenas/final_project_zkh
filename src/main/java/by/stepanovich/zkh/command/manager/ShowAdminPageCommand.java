@@ -16,7 +16,7 @@ import java.util.TreeSet;
 public class ShowAdminPageCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(ShowAdminPageCommand.class);
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
     private static final String EXCEPTION = "exception";
     private static final String USERS = "users";
     private static final String PAGE = "page";

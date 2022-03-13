@@ -3,7 +3,6 @@ package by.stepanovich.zkh.command.manager;
 import by.stepanovich.zkh.command.Command;
 import by.stepanovich.zkh.command.PathOfJsp;
 import by.stepanovich.zkh.command.ResponseContext;
-import by.stepanovich.zkh.command.employee.RegisterEmployeeCommand;
 import by.stepanovich.zkh.entity.Role;
 import by.stepanovich.zkh.service.UserService;
 import by.stepanovich.zkh.service.WorkService;
@@ -15,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class AddEmployeeCommand implements Command {
-    private UserService userService = ServiceFactory.getInstance().getUserService();
-    private WorkService workService = ServiceFactory.getInstance().getWorkService();
+    private final UserService userService = ServiceFactory.getInstance().getUserService();
+    private final WorkService workService = ServiceFactory.getInstance().getWorkService();
     private static final Logger LOGGER = LogManager.getLogger(AddEmployeeCommand.class);
 
     private static final String EXCEPTION = "exception";

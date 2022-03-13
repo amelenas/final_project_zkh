@@ -12,11 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 public class WorkServiceImpl implements WorkService {
-    private WorkDao workDao = DaoFactory.getInstance().getWorkDao();
-
-    public WorkServiceImpl(WorkDao workDao) {
-        this.workDao=workDao;
-    }
+    private final WorkDao workDao = DaoFactory.getInstance().getWorkDao();
 
     public WorkServiceImpl() {
     }

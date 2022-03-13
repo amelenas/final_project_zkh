@@ -18,7 +18,7 @@ public class ShowProfileCommand implements Command {
     private static final String USER_ID = "id";
     private static final String USER = "user";
     private static final String EXCEPTION = "exception";
-    private UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
+    private final UserService USER_SERVICE = ServiceFactory.getInstance().getUserService();
 
     @Override
     public ResponseContext execute(HttpServletRequest request) {

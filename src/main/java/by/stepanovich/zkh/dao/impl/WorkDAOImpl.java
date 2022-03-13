@@ -1,5 +1,6 @@
 package by.stepanovich.zkh.dao.impl;
 
+import by.stepanovich.zkh.connection.ConnectionPool;
 import by.stepanovich.zkh.connection.exception.ConnectionPoolException;
 import by.stepanovich.zkh.dao.WorkDao;
 import by.stepanovich.zkh.dao.exception.DaoException;
@@ -10,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
-import static by.stepanovich.zkh.connection.ConnectionPool.getInstance;
 
 public class WorkDAOImpl implements WorkDao {
     private static final String FIND_ALL_SITES_OF_WORK = "SELECT * FROM sites_of_work";
@@ -44,8 +43,8 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public List<SiteOfWork> findAllSitesOfWork() throws DaoException {
         List<SiteOfWork> siteOfWorks = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
-            Statement statement = connection.createStatement()){
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
+             Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(FIND_ALL_SITES_OF_WORK);
             while (resultSet.next()) {
                 SiteOfWork siteOfWork = readSiteOfWork(resultSet);
@@ -60,7 +59,7 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public List<TypeOfWork> findAllTypesOfWork() throws DaoException {
         List<TypeOfWork> typeOfWorks = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(FIND_ALL_TYPES_OF_WORK);
             while (resultSet.next()) {
@@ -76,7 +75,7 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public List<Long> findPerformerForWork(long typeOfWorksId, long siteOfWork) throws DaoException {
         List<Long> usersId = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_EMPLOYEE_WORKS)){
             preparedStatement.setLong(1, typeOfWorksId);
             preparedStatement.setLong(2, siteOfWork);
@@ -94,7 +93,7 @@ public class WorkDAOImpl implements WorkDao {
 
     @Override
     public boolean registerRunWork(long userId, long orderId) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_RUN_WORK)){
             preparedStatement.setLong(1, orderId);
             preparedStatement.setLong(2, userId);
@@ -110,7 +109,7 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public List<Long> findAllOrdersByEmployeeId(long employeeId) throws DaoException {
         List<Long> ordersId = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_WORKS_BY_EMPLOYEE_ID)){
             preparedStatement.setLong(1, employeeId);
             preparedStatement.setLong(2, 1);
@@ -126,7 +125,7 @@ public class WorkDAOImpl implements WorkDao {
 
     @Override
     public boolean cancelEmployeeOrder(long userId, long orderId) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_ORDER)){
             preparedStatement.setInt(1, 0);
             preparedStatement.setLong(2, userId);
@@ -141,7 +140,7 @@ public class WorkDAOImpl implements WorkDao {
 
     @Override
     public boolean cancelAllEmployeeOrder(long EmployeeId) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CANCEL_ALL_EMPLOYEE_ORDERS)){
             preparedStatement.setInt(1, 0);
             preparedStatement.setLong(2, EmployeeId);
@@ -155,7 +154,7 @@ public class WorkDAOImpl implements WorkDao {
 
     @Override
     public boolean registerEmployee(long siteOfWorkId, long typeOfWorkId, long employeeId) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(REGISTER_NEW_EMPLOYEE)){
             preparedStatement.setLong(1, employeeId);
             preparedStatement.setLong(2, typeOfWorkId);
@@ -171,7 +170,7 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public Set<Long> findAllNewEmployeeId() throws DaoException {
         Set<Long> employeeId = new TreeSet<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(FIND_ALL_NEW_EMPLOYEE);
             while (resultSet.next()) {
@@ -186,7 +185,7 @@ public class WorkDAOImpl implements WorkDao {
     @Override
     public List<Long> findWorkPerformerId(long orderId) throws DaoException {
         List<Long> employeeId = new ArrayList<>();
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(FIND_WORK_PERFORMER)){
             preparedStatement.setLong(1, orderId);
             preparedStatement.setBoolean(2, true);
@@ -202,7 +201,7 @@ public class WorkDAOImpl implements WorkDao {
 
     @Override
     public boolean changeEmployeeStatus(long userId, boolean isActive, boolean isOnApproval) throws DaoException {
-        try (Connection connection = getInstance().retrieveConnection();
+        try (Connection connection = ConnectionPool.getInstance().retrieveConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_EMPLOYEE_STATUS)){
             preparedStatement.setBoolean(1, isActive);
             preparedStatement.setBoolean(2, isOnApproval);
